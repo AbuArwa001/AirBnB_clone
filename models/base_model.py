@@ -1,6 +1,8 @@
 import cmd
 import uuid
 from datetime import datetime
+# from __init__ import storage
+from . import storage
 
 """
 Module that imports  cmd module:
@@ -22,24 +24,24 @@ class BaseModel:
     """
     def __init__(self, *args, **kwargs):
         """INITIALIZES CLASS BASEMODEL"""
-        # Uncomment the following line if this class inherits from another class
         # super().__init__()
-        # print(self.__dict__)
-        # print(self.to_dict())
         # self.__dict__ = self.to_dict().copy()
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
-        for key, val in kwargs.items():
-            if key != '__class__':
-                if key == 'created_at' or key == 'updated_at':
-                    new_val = datetime.fromisoformat(val)
-                    self.__dict__[key] = new_val
-                else:
-                    self.__dict__[key] = val
-
+        if not kwargs:
+            storage.new(self)
+        else:
+            for key, val in kwargs.items():
+                if key != '__class__':
+                    if key == 'created_at' or key == 'updated_at':
+                        new_val = datetime.fromisoformat(val)
+                        self.__dict__[key] = new_val
+                    else:
+                        self.__dict__[key] = val
 
     def __str__(self):
+        """Returns string representation of a class"""
         # keys_to_remove = ['stdin', 'stdout', 'cmdqueue', 'completekey']
         #
         # # Remove unwanted keys
@@ -48,7 +50,9 @@ class BaseModel:
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
+        """Saves and updates class"""
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
