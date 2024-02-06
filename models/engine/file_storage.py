@@ -12,6 +12,7 @@ class FileStorage:
     """
     __file_path = "file.json"
     __objects = {}
+
     def __init__(self) -> None:
         pass
     
@@ -22,8 +23,9 @@ class FileStorage:
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
         # print(obj)
-        key = obj.__class__.__name__ + "."+ obj.id
-        self.__objects.update({key: obj.__dict__})
+        key = obj.__class__.__name__ + "." + obj.id
+        self.__objects.update({key: obj})
+
     def save(self):
         """Serializes __objects to the JSON file (path: __file_path)"""
         try:
@@ -42,7 +44,6 @@ class FileStorage:
             try:
                 with open(self.__file_path, 'r', encoding='utf-8') as file:
                     self.__objects = json.load(file)
-                    print(self.__objects)
             except OSError as e:
                 print(f"Error opening file '{self.__file_path}': {e}")
                 return None
@@ -51,5 +52,5 @@ class FileStorage:
                 return None
         else:
             # Handle the case when the file doesn't exist
-            print(f"File '{self.__file_path}' doesn't exist.")
+            # print(f"File '{self.__file_path}' doesn't exist.")
             return None
