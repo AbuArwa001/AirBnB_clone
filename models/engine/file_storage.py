@@ -48,7 +48,7 @@ class FileStorage:
                 print(f"Error opening file '{self.__file_path}': {e}")
                 return None
             except json.JSONDecodeError as e:
-                print(f"Error decoding JSON from file '{self.__file_path}': {e}")
+                # print(f"Error decoding JSON from file '{self.__file_path}': {e}")
                 return None
         else:
             # Handle the case when the file doesn't exist

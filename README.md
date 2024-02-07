@@ -19,7 +19,7 @@ The command interpreter allows you to:
 To start the command interpreter, run the `console.py` script:
 
 ```bash
-$ ./console.py
+$  python3 console.py
 ```
 ## How to Use
 Once the command interpreter is running, you can use the following commands:
@@ -31,12 +31,12 @@ Once the command interpreter is running, you can use the following commands:
 - update: Updates an instance by adding or updating an attribute.
 ### Examples
 ```bash
-$ ./console.py
-(hbnb) create User
-(hbnb) show User 1234-5678-9101
-(hbnb) destroy User 1234-5678-9101
+$  python3 console.py
+(hbnb) create ModelName
+(hbnb) show ModelName 1234-5678-9101
+(hbnb) destroy ModelName 1234-5678-9101
 (hbnb) all
-(hbnb) update User 1234-5678-9101 email "newemail@example.com"
+(hbnb) update ModelName 1234-5678-9101 email "newemail@example.com"
 ```
 ### Authors
 - Khalfani Khalfan
