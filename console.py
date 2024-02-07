@@ -185,11 +185,13 @@ class HBNBCommand(cmd.Cmd):
                 if dict_part_match:
                     dict_part = dict_part_match.group()
                     edited_dict_part = dict_part_match.group()
-                    print(dict_part)
+                    # print(dict_part)
                     attr_name = ln[2]
                     attr_value = ln[3]
-                    oj = eval(dict_part)
-                    model = BaseModel(obj)
+                    oj = repr(dict_part)
+                    print(self.__dict__)
+                    print(oj)
+                    model = BaseModel(oj)
                     # setattr(dict_part, attr_name, attr_value)
                     obj.replace(dict_part, model.to_dict())
                     # obj = ast.literal_eval(all_objs[key])
