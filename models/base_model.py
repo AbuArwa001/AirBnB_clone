@@ -1,13 +1,11 @@
+""" Module that imports  cmd module:
+    console Starting point
+"""
 import cmd
 import uuid
 from datetime import datetime
 # from __init__ import storage
 from . import storage
-
-"""
-Module that imports  cmd module:
-    console Starting point
-"""
 
 
 class BaseModel:
@@ -24,8 +22,6 @@ class BaseModel:
     """
     def __init__(self, *args, **kwargs):
         """INITIALIZES CLASS BASEMODEL"""
-        # super().__init__()
-        # self.__dict__ = self.to_dict().copy()
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
@@ -43,11 +39,6 @@ class BaseModel:
 
     def __str__(self):
         """Returns string representation of a class"""
-        # keys_to_remove = ['stdin', 'stdout', 'cmdqueue', 'completekey']
-        #
-        # # Remove unwanted keys
-        # for key in keys_to_remove:
-        #     self.__dict__.pop(key, None)
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
@@ -76,20 +67,4 @@ class BaseModel:
             'id': self.id,
             'created_at': self.created_at.isoformat(),
         }
-        # if not hasattr(self, '__class__'):
-        #     self.__dict__['__class__'] = self.__class__.__name__
-
-        # result_dict['updated_at'] = self.updated_at.isoformat()
-        # if not hasattr(self, 'id'):
-        #     self.id = str(uuid.uuid4())
-        # result_dict['id'] = self.id
-        # if not hasattr(self, 'created_at'):
-        #     self.created_at = datetime.now()
-        # result_dict['created_at'] = self.updated_at.isoformat()
-
-        # # Include dynamically added attributes
-        # for key, value in self.__dict__.items():
-        #     if key not in result_dict and value is not None:
-        #         result_dict[key] = value
-
         return result_dict

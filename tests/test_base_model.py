@@ -1,4 +1,3 @@
-# tests/test_base_model.py
 import unittest
 from models.base_model import BaseModel
 from datetime import datetime
@@ -7,43 +6,44 @@ import os
 
 
 class TestBaseModel(unittest.TestCase):
+    test_json_file = "test_file.json"
+
+    def setUp(self):
+        self.base_model = BaseModel()
+
+    def tearDown(self):
+        if os.path.exists(self.test_json_file):
+            os.remove(self.test_json_file)
 
     def test_instance_attributes(self):
-        base_model = BaseModel()
-        self.assertTrue(hasattr(base_model, 'id'))
-        self.assertTrue(hasattr(base_model, 'created_at'))
-        self.assertTrue(hasattr(base_model, 'updated_at'))
+        self.assertTrue(hasattr(self.base_model, 'id'))
+        self.assertTrue(hasattr(self.base_model, 'created_at'))
+        self.assertTrue(hasattr(self.base_model, 'updated_at'))
 
     def test_id_is_string(self):
-        base_model = BaseModel()
-        self.assertIsInstance(base_model.id, str)
+        self.assertIsInstance(self.base_model.id, str)
 
     def test_created_at_is_datetime(self):
-        base_model = BaseModel()
-        self.assertIsInstance(base_model.created_at, datetime)
+        self.assertIsInstance(self.base_model.created_at, datetime)
 
     def test_updated_at_is_datetime(self):
-        base_model = BaseModel()
-        self.assertIsInstance(base_model.updated_at, datetime)
+        self.assertIsInstance(self.base_model.updated_at, datetime)
 
     def test_str_method(self):
-        base_model = BaseModel()
         expected_str = "[{}] ({}) {}".format(
-            base_model.__class__.__name__, base_model.id, base_model.__dict__)
-        self.assertEqual(str(base_model), expected_str)
+            self.base_model.__class__.__name__, self.base_model.id, self.base_model.__dict__)
+        self.assertEqual(str(self.base_model), expected_str)
 
     def test_save_method(self):
-        base_model = BaseModel()
-        old_updated_at = base_model.updated_at
-        base_model.save()
-        self.assertNotEqual(old_updated_at, base_model.updated_at)
+        old_updated_at = self.base_model.updated_at
+        self.base_model.save()
+        self.assertNotEqual(old_updated_at, self.base_model.updated_at)
 
     def test_to_dict_method(self):
-        base_model = BaseModel()
-        base_model_dict = base_model.to_dict()
+        base_model_dict = self.base_model.to_dict()
 
         self.assertIsInstance(base_model_dict, dict)
-        self.assertEqual(base_model_dict['id'], base_model.id)
+        self.assertEqual(base_model_dict['id'], self.base_model.id)
         self.assertEqual(base_model_dict['__class__'], 'BaseModel')
 
         created_at_str = base_model_dict['created_at']
@@ -52,8 +52,8 @@ class TestBaseModel(unittest.TestCase):
         created_at = datetime.strptime(created_at_str, "%Y-%m-%dT%H:%M:%S.%f")
         updated_at = datetime.strptime(updated_at_str, "%Y-%m-%dT%H:%M:%S.%f")
 
-        self.assertEqual(created_at, base_model.created_at)
-        self.assertEqual(updated_at, base_model.updated_at)
+        self.assertEqual(created_at, self.base_model.created_at)
+        self.assertEqual(updated_at, self.base_model.updated_at)
 
     def test_to_dict_method_with_custom_class_name(self):
         # Create a derived class and test its serialization
@@ -64,6 +64,21 @@ class TestBaseModel(unittest.TestCase):
         custom_model_dict = custom_model.to_dict()
 
         self.assertEqual(custom_model_dict['__class__'], 'CustomModel')
+
+    def test_json_file_saving(self):
+        # Save object to a JSON file
+        self.base_model.save_to_file(self.test_json_file)
+
+        # Check if file exists
+        self.assertTrue(os.path.exists(self.test_json_file))
+
+        # Load JSON file and check if data matches
+        with open(self.test_json_file, 'r') as f:
+            data = json.load(f)
+            self.assertEqual(data['id'], self.base_model.id)
+            self.assertEqual(data['created_at'], self.base_model.created_at.isoformat())
+            self.assertEqual(data['updated_at'], self.base_model.updated_at.isoformat())
+            self.assertEqual(data['__class__'], 'BaseModel')
 
 
 if __name__ == '__main__':
