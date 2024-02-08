@@ -1,4 +1,18 @@
 {
-    "BaseModel.6a448ca5-9ac6-4b52-b830-2e63658e168d": "[BaseModel] (6a448ca5-9ac6-4b52-b830-2e63658e168d) {'id': '6a448ca5-9ac6-4b52-b830-2e63658e168d', 'created_at': datetime.datetime(2024, 2, 7, 10, 51, 51, 128175), 'updated_at': datetime.datetime(2024, 2, 7, 10, 51, 51, 128238)}",
-    "BaseModel.9dbb995d-7372-41ce-bf0f-453929ffb930": "[BaseModel] (9dbb995d-7372-41ce-bf0f-453929ffb930) {'id': '9dbb995d-7372-41ce-bf0f-453929ffb930', 'created_at': datetime.datetime(2024, 2, 7, 10, 58, 41, 537189), 'updated_at': datetime.datetime(2024, 2, 7, 10, 58, 41, 537248)}"
+    "BaseModel.d20b6a90-b114-46a7-b0ea-a5d63ba93535": {
+        "__class__": "BaseModel",
+        "created_at": "2024-02-08 05:11:45.783842",
+        "id": "d20b6a90-b114-46a7-b0ea-a5d63ba93535",
+        "my_number": 89,
+        "name": "My_First_Model",
+        "updated_at": "2024-02-08 05:11:45.783851"
+    },
+    "BaseModel.fb864cc8-a1c9-4f59-8292-5e7c02f3a5fc": {
+        "__class__": "BaseModel",
+        "created_at": "2024-02-08 05:11:38.334530",
+        "id": "fb864cc8-a1c9-4f59-8292-5e7c02f3a5fc",
+        "my_number": 89,
+        "name": "My_First_Model",
+        "updated_at": "2024-02-08 05:11:38.334551"
+    }
 }

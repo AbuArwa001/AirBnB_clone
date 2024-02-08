@@ -4,6 +4,8 @@
 
 import json
 import os.path
+import importlib
+
 
 class FileStorage:
     """
@@ -15,16 +17,34 @@ class FileStorage:
 
     def __init__(self) -> None:
         pass
-    
+
     def all(self):
-        """returns the dictionary __objects"""
-        return self.__objects
-    
+        """Returns instances of classes based on data in __objects."""
+        from models.base_model import BaseModel
+
+        class_instances = {}
+        for instance_id, data in self.__objects.items():
+            class_name = data['__class__']
+            class_data = {key: value for key, value in data.items() if key != '__class__'}  # Exclude __class__ key
+            new_instance = self.create_instance(class_name, class_data)
+            class_instances[instance_id] = new_instance
+        return class_instances
+
+    def create_instance(self, class_name, class_data):
+        """Creates an instance of a class with the given class name and data."""
+        try:
+            module = importlib.import_module('..base_model',
+                                             package=__package__)  # Assuming `base_model` is the module name
+            class_obj = getattr(module, class_name)
+        except (ImportError, AttributeError):
+            raise ValueError(f"Class '{class_name}' not found in module '..base_model'")
+        return class_obj(**class_data)
+
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
         # print(obj)
         key = obj.__class__.__name__ + "." + obj.id
-        self.__objects.update({key: obj})
+        self.__objects.update({key: obj.__dict__})
 
     def save(self):
         """Serializes __objects to the JSON file (path: __file_path)"""

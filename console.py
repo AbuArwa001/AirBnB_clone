@@ -1,7 +1,11 @@
+#!/usr/bin/python3
 import cmd
+import json
+
 from models.base_model import BaseModel
 from models import storage
 import re
+from datetime import datetime
 
 """
 Module that imports  cmd module:
@@ -23,6 +27,7 @@ class HBNBCommand(cmd.Cmd):
     def do_EOF(self, line):
         """Exits command using key interrupt"""
         return True
+
     def do_create(self, arg):
         """
             Create a new instance of BaseModel, save it to the JSON file, and print its id.
@@ -44,7 +49,7 @@ class HBNBCommand(cmd.Cmd):
             model = BaseModel()
             print(model.id)
             model.save()
-    
+
     def do_show(self, arg):
         """
         Display the string representation of one or more instances based on their class name and id.
@@ -70,10 +75,10 @@ class HBNBCommand(cmd.Cmd):
         elif ln[0] != "BaseModel":
             print("** class doesn't exist **")
         elif size == 1:
-            print("** instance id missing **") 
+            print("** instance id missing **")
         elif size == 2:
             key = ln[0] + "." + ln[1]
-            if key  in all_objs.keys():
+            if key in all_objs.keys():
                 obj = all_objs[key]
                 print(obj)
             else:
@@ -82,6 +87,7 @@ class HBNBCommand(cmd.Cmd):
         # 
         # TODO: Implement destroy on file storage
         #  
+
     def do_all(self, arg):
         """
         Display the string representation of all instances based on the specified class name, or of all instances if no class name is provided.
@@ -142,14 +148,21 @@ class HBNBCommand(cmd.Cmd):
         elif ln[0] != "BaseModel":
             print("** class doesn't exist **")
         elif size == 1:
-            print("** instance id missing **") 
+            print("** instance id missing **")
         elif size == 2:
             key = ln[0] + "." + ln[1]
-            if key  in all_objs.keys():
+            if key in all_objs.keys():
                 del all_objs[key]
                 storage.save()
             else:
                 print("** no instance found **")
+
+    def emptyline(self):
+        pass
+
+    @staticmethod
+    def process_match(match):
+        return "'" + match.group(2).replace('"', "'") + "'"
 
     def do_update(self, arg):
         """
@@ -172,33 +185,37 @@ class HBNBCommand(cmd.Cmd):
         elif ln[0] != "BaseModel":
             print("** class doesn't exist **")
         elif size == 1:
-            print("** instance id missing **") 
+            print("** instance id missing **")
         elif size == 2:
-                print("** attribute name missing **")
+            print("** attribute name missing **")
         elif size == 3:
-                print("** value missing **")
+            print("** value missing **")
         elif size == 4:
+            attr_name = ln[2]
+            attr_value = ln[3].replace('"', "'")
             key = ln[0] + "." + ln[1]
-            if key  in all_objs.keys():
-                obj = all_objs[key]
-                dict_part_match = re.search(r'\{.*\}', obj)
-                if dict_part_match:
-                    dict_part = dict_part_match.group()
-                    edited_dict_part = dict_part_match.group()
-                    # print(dict_part)
-                    attr_name = ln[2]
-                    attr_value = ln[3]
-                    oj = repr(dict_part)
-                    print(self.__dict__)
-                    print(oj)
-                    model = BaseModel(oj)
-                    # setattr(dict_part, attr_name, attr_value)
-                    obj.replace(dict_part, model.to_dict())
-                    # obj = ast.literal_eval(all_objs[key])
-                    #  obj = eval(all_objs[key])
-                    #  obj.ln[2] = ln[3]
-                    print(all_objs[key])
-                # storage.save()
+            first_part = f"[{ln[0]}] ({ln[1]}) "
+            second_part = f"'{attr_name}': {attr_value}, "
+            #  update BaseModel 6a448ca5-9ac6-4b52-b830-2e63658e168d first_name "Khalfan"
+            # Replace strings within double quotes with strings within single quotes
+            # processed_string = re.sub(pattern, self.process_match, second_part)
+            if key in all_objs.keys():
+                """
+                {
+                    "BaseModel.6a448ca5-9ac6-4b52-b830-2e63658e168d": 
+                    "[BaseModel] (6a448ca5-9ac6-4b52-b830-2e63658e168d) 
+                    {
+                    'id': '6a448ca5-9ac6-4b52-b830-2e63658e168d', 
+                    'created_at': datetime.datetime(2024, 2, 7, 10, 51, 51, 128175), 
+                    'updated_at': datetime.datetime(2024, 2, 7, 10, 51, 51, 128238)}"
+                }
+                """
+                dict_part_match = re.search(r'\{.*\}', all_objs[key])
+                dict_part = dict_part_match.group()
+                # setattr(dict_part, attr_name, attr_value)
+                modified = dict_part[:1] + second_part + dict_part[1:]
+                all_objs[key] = first_part + modified
+                storage.save()
             else:
                 print("** no instance found **")
 
@@ -206,7 +223,9 @@ class HBNBCommand(cmd.Cmd):
 if __name__ == '__main__':
     # 
     # TODO: 1) IMPLEMET NON-INTERACTIVE MODE
+    #       2)  ADD NEW LINE F0R NIM (NON-INTERSCTIVE MODE)
     #
     # 
     # 
-    HBNBCommand().cmdloop()
+    interpreter = HBNBCommand()
+    interpreter.cmdloop()
