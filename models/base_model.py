@@ -34,7 +34,6 @@ class BaseModel:
             storage.new(self)
         else:
             for key, val in kwargs.items():
-                print(key)
                 if key != '__class__':
                     if key == 'created_at' or key == 'updated_at':
                         new_val = datetime.fromisoformat(val)

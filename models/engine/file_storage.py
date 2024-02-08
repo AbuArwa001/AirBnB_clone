@@ -32,8 +32,12 @@ class FileStorage:
 
     def create_instance(self, class_name, class_data):
         """Creates an instance of a class with the given class name and data."""
+        if class_name == "BaseModel":
+            class_module = '..base_model'
+        elif class_name == "User":
+            class_module = '..user'
         try:
-            module = importlib.import_module('..base_model',
+            module = importlib.import_module(class_module,
                                              package=__package__)  # Assuming `base_model` is the module name
             class_obj = getattr(module, class_name)
         except (ImportError, AttributeError):
@@ -64,6 +68,7 @@ class FileStorage:
             try:
                 with open(self.__file_path, 'r', encoding='utf-8') as file:
                     self.__objects = json.load(file)
+                return self.__objects
             except OSError as e:
                 print(f"Error opening file '{self.__file_path}': {e}")
                 return None

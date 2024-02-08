@@ -3,6 +3,7 @@ import cmd
 import json
 
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 import re
 from datetime import datetime
@@ -41,14 +42,21 @@ class HBNBCommand(cmd.Cmd):
             Example:
                create BaseModel
         """
+        classes = ["BaseModel", "User"]
         if not arg:
             print("** class name missing **")
-        elif arg != "BaseModel":
+        elif arg not in classes:
+            # print(arg)
             print("** class doesn't exist **")
         else:
-            model = BaseModel()
-            print(model.id)
-            model.save()
+            if arg == "BaseModel":
+                model = BaseModel()
+                print(model.id)
+                model.save()
+            elif arg == "User":
+                model = User()
+                print(model.id)
+                model.save()
 
     def do_show(self, arg):
         """
@@ -67,12 +75,13 @@ class HBNBCommand(cmd.Cmd):
         #       2) Enter shouldnt execute anything (FOR NOW IT EXECUTE PREVIOUS COMMANDS)
         # 
         # 
+        classes = ["BaseModel", "User"]
         ln = arg.split()
         size = len(ln)
         all_objs = storage.all()
         if size == 0:
             print("** class name missing **")
-        elif ln[0] != "BaseModel":
+        elif ln[0] not in classes:
             print("** class doesn't exist **")
         elif size == 1:
             print("** instance id missing **")
@@ -117,13 +126,13 @@ class HBNBCommand(cmd.Cmd):
         class_names = []
         if not arg:
             for obj_id in all_objs.keys():
-                obj = all_objs[obj_id]
+                obj = str(all_objs[obj_id])
                 all.append(obj)
         for obj_id in all_objs.keys():
-            obj = all_objs[obj_id]
-            class_name = obj_id.split(".")
-            class_names.append(class_name[0])
-            if class_name[0] == arg:
+            obj = str(all_objs[obj_id])
+            [class_name, id] = obj_id.rsplit(".")
+            class_names.append(class_name)
+            if class_name == arg:
                 all.append(obj)
         if arg and arg not in class_names:
             print("** class doesn't exist **")
@@ -140,12 +149,13 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             None
         """
+        classes = ["BaseModel", "User"]
         ln = arg.split()
         size = len(ln)
-        all_objs = storage.all()
+        all_objs = storage.reload()
         if size == 0:
             print("** class name missing **")
-        elif ln[0] != "BaseModel":
+        elif ln[0] not in classes:
             print("** class doesn't exist **")
         elif size == 1:
             print("** instance id missing **")
@@ -177,12 +187,19 @@ class HBNBCommand(cmd.Cmd):
         Example:
             update BaseModel 1234-1234-1234 email aibnb@mail.com 
     """
+        #
+        #  TODO: Take note on what can be done about the quotes
+        #       in attr_val what if it appears on attr_name(we will have undesire quotes)
+        #
+        #
+        classes = ["BaseModel", "User"]
         ln = arg.split()
+        _, _, attr_name, attr_value = arg.split()
         size = len(ln)
-        all_objs = storage.all()
+        all_objs = storage.reload()
         if size == 0:
             print("** class name missing **")
-        elif ln[0] != "BaseModel":
+        elif ln[0] not in classes:
             print("** class doesn't exist **")
         elif size == 1:
             print("** instance id missing **")
@@ -191,30 +208,12 @@ class HBNBCommand(cmd.Cmd):
         elif size == 3:
             print("** value missing **")
         elif size == 4:
-            attr_name = ln[2]
-            attr_value = ln[3].replace('"', "'")
+            # attr_name = ln[2]
+            # attr_value = ln[3].replace('"', "")
+            attr_value = attr_value.replace('"', "")
             key = ln[0] + "." + ln[1]
-            first_part = f"[{ln[0]}] ({ln[1]}) "
-            second_part = f"'{attr_name}': {attr_value}, "
-            #  update BaseModel 6a448ca5-9ac6-4b52-b830-2e63658e168d first_name "Khalfan"
-            # Replace strings within double quotes with strings within single quotes
-            # processed_string = re.sub(pattern, self.process_match, second_part)
             if key in all_objs.keys():
-                """
-                {
-                    "BaseModel.6a448ca5-9ac6-4b52-b830-2e63658e168d": 
-                    "[BaseModel] (6a448ca5-9ac6-4b52-b830-2e63658e168d) 
-                    {
-                    'id': '6a448ca5-9ac6-4b52-b830-2e63658e168d', 
-                    'created_at': datetime.datetime(2024, 2, 7, 10, 51, 51, 128175), 
-                    'updated_at': datetime.datetime(2024, 2, 7, 10, 51, 51, 128238)}"
-                }
-                """
-                dict_part_match = re.search(r'\{.*\}', all_objs[key])
-                dict_part = dict_part_match.group()
-                # setattr(dict_part, attr_name, attr_value)
-                modified = dict_part[:1] + second_part + dict_part[1:]
-                all_objs[key] = first_part + modified
+                all_objs[key][attr_name] = attr_value
                 storage.save()
             else:
                 print("** no instance found **")
