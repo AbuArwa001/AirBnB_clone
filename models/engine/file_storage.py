@@ -72,8 +72,7 @@ class FileStorage:
             with open(self.__file_path, 'w', encoding='utf-8') as file:
                 # json.dumps(self.__objects,
                 # indent=4, sort_keys=True, default=str)
-                file.write(json.dumps(self.__objects,
-                                      indent=4, sort_keys=True, default=str))
+                file.write(json.dumps(self.__objects, default=str))
                 #  json.dump(self.__objects, file)
             return True  # Indicate success
         except Exception as e:

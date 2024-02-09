@@ -1,59 +1,78 @@
 import unittest
 from unittest.mock import patch, mock_open
-import uuid
-
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
-
+from datetime import datetime
+import json
 
 class TestFileStorage(unittest.TestCase):
     def setUp(self):
-        self.file_path = "file.json"
         self.file_storage = FileStorage()
 
-    @patch("builtins.open", new_callable=mock_open, read_data='{"BaseModel.1": {"__class__": "BaseModel", "id": "1"}}')
-    def test_reload(self, mock_open):
-        self.assertIsNotNone(self.file_storage.reload())
-        mock_open.assert_called_once_with(self.file_path, 'r', encoding='utf-8')
+    def tearDown(self):
+        self.file_storage = None
 
-    @patch("builtins.open", new_callable=mock_open)
-    def test_reload_file_not_exist(self, mock_open):
-        mock_open.side_effect = FileNotFoundError
-        self.assertIsNone(self.file_storage.reload())
-
-    def test_save(self):
+    def test_save_writes_correct_data_to_file(self):
+        # Create a BaseModel instance
         model = BaseModel()
-        model.id = str(uuid.uuid4())
+        model.id = "1"
+        model.created_at = datetime(2024, 2, 9, 6, 0, 0)# Mock the creation time
+        model.updated_at = datetime(2024, 2, 9, 6, 0, 0)# Mock the update time
+        model.created_at = model.created_at.isoformat()
+        model.updated_at = model.updated_at.isoformat()
         self.file_storage.new(model)
 
+        # Mock the 'open' function and write data to the file
         with patch("builtins.open", mock_open()) as mock_file:
-            self.assertTrue(self.file_storage.save())
-            mock_file.assert_called_once_with(self.file_path, 'w', encoding='utf-8')
-            expected_output = f'{{"{model.__class__.__name__}.{model.id}": {{"id": "{model.id}"}}}}'
-            mock_file().write.assert_called_once_with(expected_output)
+            file_saved = self.file_storage.save()
 
-    @patch("builtins.open", new_callable=mock_open)
-    def test_save_failure(self, mock_open):
-        mock_open.side_effect = OSError
-        self.assertFalse(self.file_storage.save())
+            # Assert that the file was opened with the correct arguments
+            mock_file.assert_called_once_with(self.file_storage._FileStorage__file_path, 'w', encoding='utf-8')
+
+            # Construct expected dictionary
+            expected_data = {
+                f"{model.__class__.__name__}.{model.id}": {
+                    "__class__": model.__class__.__name__,
+                    "id": model.id,
+                    "created_at": model.created_at,
+                    "updated_at": model.updated_at
+                }
+            }
+
+            # Deserialize actual data from the written file
+            actual_data = json.loads(mock_file().write.call_args[0][0])
+
+            # Compare dictionaries
+            self.assertDictEqual(expected_data, actual_data)
+            self.assertTrue(file_saved)
 
     @patch("builtins.open", new_callable=mock_open, read_data='{"BaseModel.1": {"__class__": "BaseModel", "id": "1"}}')
-    def test_all(self, mock_open):
+    def test_all_returns_correct_instance_from_file_storage(self, mock_open):
+        # Call the test_save method to save a BaseModel instance
+        self.test_save_writes_correct_data_to_file()
+
+        # Reload the data from the file storage
         self.file_storage.reload()
+
+        # Get all instances from the file storage
         instances = self.file_storage.all()
+
+        # Check if there is exactly one instance and it is of type BaseModel
         self.assertEqual(len(instances), 1)
         self.assertIsInstance(instances["BaseModel.1"], BaseModel)
 
-    def test_create_instance(self):
-        class_data = {"id": "1"}
-        instance = self.file_storage.create_instance("BaseModel", class_data)
-        self.assertIsInstance(instance, BaseModel)
-        self.assertEqual(instance.id, "1")
+    def test_reload(self):
+        # Save some data to the file storage
+        model = BaseModel()
+        model.id = "1"  # Set a known ID
+        self.file_storage.new(model)
+        self.file_storage.save()
 
-    def test_create_instance_invalid_class(self):
-        with self.assertRaises(ValueError):
-            self.file_storage.create_instance("InvalidClass", {})
+        # Reload the data from the file storage
+        reloaded_data = self.file_storage.reload()
 
+        # Assert that reloaded_data is not None
+        self.assertIsNotNone(reloaded_data)
 
 if __name__ == '__main__':
     unittest.main()

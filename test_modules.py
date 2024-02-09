@@ -16,20 +16,23 @@ def test_modules(base_directory="models", modules_to_test=None):
                 'city': 'City'
             }
     # modules_class = ["base_model", "User", "Review", "Place", "Amenity", "State", "City"]
-    print("=====TEST MODULES===== ")
+    print("===============================MODULES DOCUMENTATIONS=================================")
 
     for module_name in modules_to_test:
         module_path = os.path.join(base_directory, module_name + ".py")
 
+        print(f"===== {module_name}-MODULE---DOCUMENTATION===== ")
         if os.path.exists(module_path):
             command = f'python3 -c \'print(__import__("models.{module_name}").{module_name}.__doc__)\''
             os.system(command)
         else:
             print(f"Module '{module_name}' not found.")
-    print("=====TEST CLASSES===== ")
+    print("================================END OF MODULES DOCUMENTATIONS===========================")
+    print("================================CLASS DOCUMENTATIONS====================================")
     for module_name in modules_class.keys():
-        print(f"=================================={module_name}====================================")
+       
         klass = modules_class[module_name]
+        print(f"=================================={klass}-CLASS-DOCUMENTATION-============================")
         module_path = os.path.join(base_directory, module_name + ".py")
 
         if os.path.exists(module_path):
@@ -39,13 +42,14 @@ def test_modules(base_directory="models", modules_to_test=None):
             # python3 -c 'print(__import__("models.base_model").base_model.__doc__)'
             command = f'python3 -c \'print(__import__("models.{module_name}").{module_name}.{klass}.__doc__)\''
             os.system(command)
-            print("=====TEST METHODS===== ")
             module = __import__(f"models.{module_name}", fromlist=[klass])
             class_obj = getattr(module, klass)
-            print(class_obj)
+            print("================================METHOD DOCUMENTATIONS==============================")
             for method_name, method in inspect.getmembers(class_obj, inspect.isfunction):
+                print(f"================================{method_name}-METHOD--DOCUMENTATION================")
                 print(f"Method: {method_name}")
                 print(f"Docstring: {method.__doc__}")
+            print("====END=====")
         else:
             print(f"Module '{module_name}' not found.")
 
