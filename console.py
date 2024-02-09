@@ -20,13 +20,15 @@ class HBNBCommand(cmd.Cmd):
 
     def precmd(self, line):
         """Check for command if it uses .all() notation"""
+        classes = ["BaseModel", "User", "Amenity",
+            "City", "Place", "Review", "State"]
         line = line.strip()
-        pattern = "(^[A-Z][a-zA-Z]{2,})\.(all|count)\(\)"
+        pattern = "(^[A-Z][a-zA-Z]{2,})\.(all|count|show|update)\(w*\)"
         match = re.search(pattern, line)
         if match:
+            klass = match.group(1)
             method = match.group(2)
-            if method == "all":
-                klass = match.group(1)
+            if method == "all" and klass in classes:
                 line = f"all {klass}"
             elif method == "count":
                 klass = match.group(1)
