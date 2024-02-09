@@ -1,5 +1,7 @@
 import os
 import sys
+import inspect
+
 
 def test_modules(base_directory="models", modules_to_test=None):
     if modules_to_test is None:
@@ -37,9 +39,16 @@ def test_modules(base_directory="models", modules_to_test=None):
             # python3 -c 'print(__import__("models.base_model").base_model.__doc__)'
             command = f'python3 -c \'print(__import__("models.{module_name}").{module_name}.{klass}.__doc__)\''
             os.system(command)
+            print("=====TEST METHODS===== ")
+            module = __import__(f"models.{module_name}", fromlist=[klass])
+            class_obj = getattr(module, klass)
+            print(class_obj)
+            for method_name, method in inspect.getmembers(class_obj, inspect.isfunction):
+                print(f"Method: {method_name}")
+                print(f"Docstring: {method.__doc__}")
         else:
             print(f"Module '{module_name}' not found.")
-    print("=====TEST METHODS===== ")
+
     # for module_name in modules_to_test:
     #     module_path = os.path.join(base_directory, module_name + ".py")
 
@@ -51,6 +60,8 @@ def test_modules(base_directory="models", modules_to_test=None):
     #         os.system(command)
     #     else:
     #         print(f"Module '{module_name}' not found.")
+
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         # User provided custom directory and module names
