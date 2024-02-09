@@ -20,11 +20,19 @@ class HBNBCommand(cmd.Cmd):
 
     def precmd(self, line):
         """Check for command if it uses .all() notation"""
-        pattern = "(^[A-Z][a-zA-z]{2,})\.all\(\)"
+        line = line.strip()
+        pattern = "(^[A-Z][a-zA-Z]{2,})\.(all|count)\(\)"
         match = re.search(pattern, line)
         if match:
-            klass = match.group(1)
-            line = f"all {klass}"
+            method = match.group(2)
+            if method == "all":
+                klass = match.group(1)
+                line = f"all {klass}"
+            elif method == "count":
+                klass = match.group(1)
+                num_of_klases = self.count(klass)
+                print(num_of_klases)
+                line = ""
         return cmd.Cmd.precmd(self, line)
 
     def do_quit(self, arg):
@@ -35,6 +43,20 @@ class HBNBCommand(cmd.Cmd):
         """Exits command using key interrupt"""
         return True
 
+    @staticmethod
+    def count(arg):
+        classes = ["BaseModel", "User", "Amenity",
+            "City", "Place", "Review", "State"]
+        storage.reload()
+        all_objs = storage.all()
+        all = []
+        for obj_id in all_objs.keys():
+                class_name , _ = obj_id.split(".")
+                if arg in classes and arg == class_name:
+                    obj = str(all_objs[obj_id])
+                    all.append(obj)
+        length = len(all)
+        return length
     @staticmethod
     def create_instance(class_name: str, class_data: Dict[str, Any]) -> Any:
         """Create an instance of a class with the given class name and data."""
