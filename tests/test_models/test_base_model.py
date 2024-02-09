@@ -6,7 +6,7 @@ import os
 
 
 class TestBaseModel(unittest.TestCase):
-    test_json_file = "test_file.json"
+    test_json_file = "file.json"
 
     def setUp(self):
         self.base_model = BaseModel()
@@ -66,8 +66,12 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(custom_model_dict['__class__'], 'CustomModel')
 
     def test_json_file_saving(self):
+        # Truncate the file to make it empty
+        with open(self.test_json_file, 'w') as f:
+            f.truncate()
+
         # Save object to a JSON file
-        self.base_model.save_to_file(self.test_json_file)
+        self.base_model.save()
 
         # Check if file exists
         self.assertTrue(os.path.exists(self.test_json_file))
@@ -75,10 +79,14 @@ class TestBaseModel(unittest.TestCase):
         # Load JSON file and check if data matches
         with open(self.test_json_file, 'r') as f:
             data = json.load(f)
-            self.assertEqual(data['id'], self.base_model.id)
-            self.assertEqual(data['created_at'], self.base_model.created_at.isoformat())
-            self.assertEqual(data['updated_at'], self.base_model.updated_at.isoformat())
-            self.assertEqual(data['__class__'], 'BaseModel')
+            for key in data.keys():
+                klass, id = key.split('.')
+                if id == self.base_model.id:
+                    self.assertEqual(id, self.base_model.id)
+                    self.assertEqual(datetime.fromisoformat(data[key]['created_at']), self.base_model.created_at)
+                    self.assertEqual(datetime.fromisoformat(data[key]['updated_at']), self.base_model.updated_at)
+                    self.assertEqual(data[key]['__class__'], 'BaseModel')
+                    break
 
 
 if __name__ == '__main__':

@@ -1,12 +1,8 @@
 #!/usr/bin/python3
 import cmd
-import json
-
-from models.base_model import BaseModel
-from models.user import User
 from models import storage
-import re
-from datetime import datetime
+import importlib
+from typing import Any, Dict
 
 """
 Module that imports  cmd module:
@@ -29,6 +25,32 @@ class HBNBCommand(cmd.Cmd):
         """Exits command using key interrupt"""
         return True
 
+    @staticmethod
+    def create_instance(class_name: str, class_data: Dict[str, Any]) -> Any:
+        """Create an instance of a class with the given class name and data."""
+        module_map = {
+            "BaseModel": "models.base_model",
+            "User": "models.user",
+            "Amenity": "models.amenity",
+            "City": "models.city",
+            "Place": "models.place",
+            "Review": "models.review",
+            "State": "models.state",
+        }
+
+        class_module = module_map.get(class_name)
+        if class_module is None:
+            raise ValueError(f"Class '{class_name}' is not supported")
+        try:
+            module = importlib.import_module(class_module, package=__package__)
+            class_obj = getattr(module, class_name)
+        except ImportError:
+            raise ValueError(f"Module '{class_module}' not found")
+        except AttributeError:
+            raise ValueError(f"Class '{class_name}'"
+                             f"not found in module '{class_module}'")
+        return class_obj(**class_data)
+
     def do_create(self, arg):
         """
             Create a new instance of BaseModel, save it to the JSON file, and print its id.
@@ -42,21 +64,30 @@ class HBNBCommand(cmd.Cmd):
             Example:
                create BaseModel
         """
-        classes = ["BaseModel", "User"]
+        classes = ["BaseModel", "User", "Amenity",
+                   "City", "Place", "Review", "State"]
         if not arg:
             print("** class name missing **")
         elif arg not in classes:
             # print(arg)
             print("** class doesn't exist **")
         else:
-            if arg == "BaseModel":
-                model = BaseModel()
-                print(model.id)
-                model.save()
-            elif arg == "User":
-                model = User()
-                print(model.id)
-                model.save()
+                class_name = arg
+                # Exclude __class__ key
+                # class_data = {key: value for key, value in data.items()
+                #               if key != '__class__'}
+                new_instance = self.create_instance(class_name, {})
+                print(new_instance.id)
+                new_instance.save()
+            #
+            # if arg == "BaseModel":
+            #     model = BaseModel()
+            #     print(model.id)
+            #     model.save()
+            # elif arg == "User":
+            #     model = User()
+            #     print(model.id)
+            #     model.save()
 
     def do_show(self, arg):
         """
@@ -74,8 +105,10 @@ class HBNBCommand(cmd.Cmd):
         # TODO: 1) consider when the arguments are three
         #       2) Enter shouldnt execute anything (FOR NOW IT EXECUTE PREVIOUS COMMANDS)
         # 
-        # 
-        classes = ["BaseModel", "User"]
+        #
+
+        classes = ["BaseModel", "User", "Amenity",
+                   "City", "Place", "Review", "State"]
         ln = arg.split()
         size = len(ln)
         all_objs = storage.all()
@@ -149,7 +182,8 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             None
         """
-        classes = ["BaseModel", "User"]
+        classes = ["BaseModel", "User", "Amenity",
+                   "City", "Place", "Review", "State"]
         ln = arg.split()
         size = len(ln)
         all_objs = storage.reload()
@@ -192,9 +226,9 @@ class HBNBCommand(cmd.Cmd):
         #       in attr_val what if it appears on attr_name(we will have undesire quotes)
         #
         #
-        classes = ["BaseModel", "User"]
+        classes = ["BaseModel", "User", "Amenity",
+                   "City", "Place", "Review", "State"]
         ln = arg.split()
-        _, _, attr_name, attr_value = arg.split()
         size = len(ln)
         all_objs = storage.reload()
         if size == 0:
@@ -204,10 +238,13 @@ class HBNBCommand(cmd.Cmd):
         elif size == 1:
             print("** instance id missing **")
         elif size == 2:
+            print("** instance id missing **")
+        elif size == 2:
             print("** attribute name missing **")
         elif size == 3:
             print("** value missing **")
         elif size == 4:
+            _, _, attr_name, attr_value = arg.split()
             # attr_name = ln[2]
             # attr_value = ln[3].replace('"', "")
             attr_value = attr_value.replace('"', "")

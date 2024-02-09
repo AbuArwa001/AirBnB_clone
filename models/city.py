@@ -20,7 +20,8 @@ class City(BaseModel):
         name (str): The name of the city.
 
     Methods:
-        __init__: Initializes a City instance with an optional state ID and city name.
+        __init__: Initializes a City instance with
+            an optional state ID and city name.
 
     """
 
@@ -29,7 +30,8 @@ class City(BaseModel):
         Initializes a City instance.
 
         Args:
-            state_id (str, optional): The ID of the state associated with the city.
+            state_id (str, optional):
+                The ID of the state associated with the city.
             name (str, optional): The name of the city.
         """
         super().__init__(*args, **kwargs)

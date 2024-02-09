@@ -1,58 +1,27 @@
 {
-    "BaseModel.2bf3ebfd-a220-49ee-9ae6-b01c75f6f6a4": {
-        "__class__": "BaseModel",
-        "created_at": "2017-09-28T21:11:14.333852",
-        "id": "2bf3ebfd-a220-49ee-9ae6-b01c75f6f6a4",
-        "updated_at": "2017-09-28T21:11:14.333862"
+    "City.d2365561-bfa4-4770-a3d5-7e78fbc469f2": {
+        "__class__": "City",
+        "created_at": "2024-02-09 04:29:23.044785",
+        "id": "d2365561-bfa4-4770-a3d5-7e78fbc469f2",
+        "name": "",
+        "state_id": "",
+        "updated_at": "2024-02-09 04:29:23.044858"
     },
-    "BaseModel.38a22b25-ae9c-4fa9-9f94-59b3eb51bfba": {
-        "__class__": "BaseModel",
-        "created_at": "2017-09-28T21:11:13.753337",
-        "id": "38a22b25-ae9c-4fa9-9f94-59b3eb51bfba",
-        "updated_at": "2017-09-28T21:11:13.753347"
-    },
-    "BaseModel.9bf17966-b092-4996-bd33-26a5353cccb4": {
-        "__class__": "BaseModel",
-        "created_at": "2017-09-28T21:11:14.963049",
-        "id": "9bf17966-b092-4996-bd33-26a5353cccb4",
-        "updated_at": "2017-09-28T21:11:14.963058"
-    },
-    "BaseModel.a42ee380-c959-450e-ad29-c840a898cfce": {
-        "__class__": "BaseModel",
-        "created_at": "2017-09-28T21:11:15.504287",
-        "id": "a42ee380-c959-450e-ad29-c840a898cfce",
-        "updated_at": "2017-09-28T21:11:15.504296"
-    },
-    "BaseModel.af9b4cbd-2ce1-4e6e-8259-f578097dd15f": {
-        "__class__": "BaseModel",
-        "created_at": "2017-09-28T21:11:12.971521",
-        "id": "af9b4cbd-2ce1-4e6e-8259-f578097dd15f",
-        "updated_at": "2017-09-28T21:11:12.971544"
-    },
-    "User.1558c7aa-0658-4e16-aa80-578c31bc34c0": {
-        "__class__": "User",
-        "created_at": "2024-02-08 09:52:43.431260",
-        "email": "airbnb2@mail.com",
-        "first_name": "John",
-        "id": "1558c7aa-0658-4e16-aa80-578c31bc34c0",
-        "password": "root",
-        "updated_at": "2024-02-08 09:52:43.431268"
-    },
-    "User.deb855bc-7b16-4eaa-989a-a826456dc3a7": {
-        "__class__": "User",
-        "created_at": "2024-02-08 09:55:48.320238",
-        "first_name": "Khalfan",
-        "id": "deb855bc-7b16-4eaa-989a-a826456dc3a7",
-        "updated_at": "2024-02-08 09:55:48.320298"
-    },
-    "User.ebf2e07e-7296-44c5-a32e-3b36db93dbfb": {
-        "__class__": "User",
-        "created_at": "2024-02-08 09:52:43.430697",
-        "email": "airbnb@mail.com",
-        "first_name": "Betty",
-        "id": "ebf2e07e-7296-44c5-a32e-3b36db93dbfb",
-        "last_name": "Bar",
-        "password": "root",
-        "updated_at": "2024-02-08 09:52:43.430706"
+    "Place.f120283d-d5cc-4827-89af-6710eaae18ee": {
+        "__class__": "Place",
+        "amenity_ids": [],
+        "city_id": "",
+        "created_at": "2024-02-09 04:29:09.930726",
+        "description": "",
+        "id": "f120283d-d5cc-4827-89af-6710eaae18ee",
+        "latitude": 0.0,
+        "longitude": 0.0,
+        "max_guest": 0,
+        "name": "",
+        "number_bathrooms": 0,
+        "number_rooms": 0,
+        "price_by_night": 0,
+        "updated_at": "2024-02-09 04:29:09.930789",
+        "user_id": ""
     }
 }

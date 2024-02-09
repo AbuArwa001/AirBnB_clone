@@ -22,11 +22,12 @@ class User(BaseModel):
         last_name (str): The last name of the user.
 
     Methods:
-        __init__: Initializes a User instance with optional email, password, first name, and last name.
-        
+        __init__: Initializes a
+        User instance with optional email, password, first name, and last name.
     """
 
-    def __init__(self, email=None, password=None, first_name=None, last_name=None, *args, **kwargs):
+    def __init__(self, email=None, password=None,
+                 first_name=None, last_name=None, *args, **kwargs):
         """
         Initializes a User instance.
 
@@ -35,8 +36,10 @@ class User(BaseModel):
             password (str, optional): The password of the user.
             first_name (str, optional): The first name of the user.
             last_name (str, optional): The last name of the user.
-            *args: Variable length argument list passed to the superclass constructor.
-            **kwargs: Arbitrary keyword arguments passed to the superclass constructor.
+            *args: Variable length argument
+                list passed to the superclass constructor.
+            **kwargs: Arbitrary keyword arguments
+                passed to the superclass constructor.
         """
         super().__init__(*args, **kwargs)
         if email is not None:
@@ -47,4 +50,3 @@ class User(BaseModel):
             self.first_name = first_name
         if last_name is not None:
             self.last_name = last_name
-

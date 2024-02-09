@@ -21,6 +21,10 @@ To start the command interpreter, run the `console.py` script:
 ```bash
 $  python3 console.py
 ```
+And to Use non-interactively e.g :
+```bash
+echo "all" | ./console.py
+```
 ## How to Use
 Once the command interpreter is running, you can use the following commands:
 

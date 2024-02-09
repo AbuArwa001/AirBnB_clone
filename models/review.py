@@ -31,11 +31,14 @@ class Review(BaseModel):
 
         Args:
             review_id (str, optional): The ID of the review.
-            place_id (str, optional): The ID of the place associated with the review.
+            place_id (str, optional):
+                The ID of the place associated with the review.
             user_id (str, optional): The ID of the user who wrote the review.
             text (str, optional): The content of the review.
-            *args: Variable length argument list passed to the superclass constructor.
-            **kwargs: Arbitrary keyword arguments passed to the superclass constructor.
+            *args: Variable
+                length argument list passed to the superclass constructor.
+            **kwargs: Arbitrary
+                keyword arguments passed to the superclass constructor.
         """
         super().__init__(*args, **kwargs)
         self.place_id = place_id
