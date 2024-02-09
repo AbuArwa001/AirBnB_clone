@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import cmd
+import re
 from models import storage
 import importlib
 from typing import Any, Dict
@@ -16,6 +17,15 @@ class HBNBCommand(cmd.Cmd):
         cmd class
     """
     prompt = "(hbnb) "
+
+    def precmd(self, line):
+        """Check for command if it uses .all() notation"""
+        pattern = "(^[A-Z][a-zA-z]{2,})\.all\(\)"
+        match = re.search(pattern, line)
+        if match:
+            klass = match.group(1)
+            line = f"all {klass}"
+        return cmd.Cmd.precmd(self, line)
 
     def do_quit(self, arg):
         """Quits the cmd interface usin quit command"""
