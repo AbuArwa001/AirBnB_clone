@@ -7,13 +7,26 @@ import json
 
 
 class TestFileStorage(unittest.TestCase):
+    """
+    Test cases for the FileStorage class.
+    """
+
     def setUp(self):
+        """
+        Set up a FileStorage instance for testing.
+        """
         self.file_storage = FileStorage()
 
     def tearDown(self):
+        """
+        Clean up after each test by resetting FileStorage instance.
+        """
         self.file_storage = None
 
     def test_save_writes_correct_data_to_file(self):
+        """
+        Test that save method writes correct data to the file.
+        """
         # Create a BaseModel instance
         model = BaseModel()
         model.id = "1"
@@ -57,6 +70,9 @@ class TestFileStorage(unittest.TestCase):
         read_data='{"BaseModel.1": {"__class__": "BaseModel", "id": "1"}}'
         )
     def test_all_returns_correct_instance_from_file_storage(self, mock_open):
+        """
+        Test that all method returns correct instances from file storage.
+        """
         # Call the test_save method to save a BaseModel instance
         self.test_save_writes_correct_data_to_file()
 
@@ -71,6 +87,9 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsInstance(instances["BaseModel.1"], BaseModel)
 
     def test_reload(self):
+        """
+        Test that reload method reloads data from file storage.
+        """
         # Save some data to the file storage
         model = BaseModel()
         model.id = "1"  # Set a known ID

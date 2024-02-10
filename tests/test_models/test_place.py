@@ -1,10 +1,20 @@
+"""
+Module to test the functionality of the Place class.
+"""
+
 import unittest
 from models.place import Place
 
 
 class TestPlace(unittest.TestCase):
+    """
+    Test cases for the Place class.
+    """
 
     def setUp(self):
+        """
+        Set up a test instance of the Place class.
+        """
         self.place = Place(
             city_id="1",
             user_id="user123",
@@ -20,6 +30,9 @@ class TestPlace(unittest.TestCase):
         )
 
     def test_attributes(self):
+        """
+        Test that the attributes of the Place instance are correctly set.
+        """
         self.assertEqual(self.place.city_id, "1")
         self.assertEqual(self.place.user_id, "user123")
         self.assertEqual(self.place.name, "Example Place")
@@ -33,6 +46,9 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(self.place.amenity_ids, [1, 2, 3])
 
     def test_default_values(self):
+        """
+        Test that default values are correctly set when no arguments are pased
+        """
         place = Place()
         self.assertEqual(place.city_id, "")
         self.assertEqual(place.user_id, "")
