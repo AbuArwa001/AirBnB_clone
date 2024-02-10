@@ -1,4 +1,4 @@
-"""
+"""#!/usr/bin/python3
 MODULE: Amenity Module
 
 This module provides functionality for handling amenity entities.

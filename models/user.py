@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 """
 MODULE: User Management Module
 
