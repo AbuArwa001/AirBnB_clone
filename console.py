@@ -103,6 +103,9 @@ class HBNBCommand(cmd.Cmd):
         """Exits command using key interrupt"""
         return True
 
+    def postloop(self):
+        print("")
+
     @staticmethod
     def count(arg):
         classes = ["BaseModel", "User", "Amenity",
@@ -200,9 +203,6 @@ class HBNBCommand(cmd.Cmd):
         """
         #
         # TODO: 1) consider when the arguments are three
-        #       2) Enter shouldnt execute anything
-        #       (FOR NOW IT EXECUTE PREVIOUS COMMANDS)
-        #
         #
 
         # classes = ["BaseModel", "User", "Amenity",
@@ -224,9 +224,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-        #
-        # TODO: Implement destroy on file storage
-        #
 
     def do_all(self, arg):
         """

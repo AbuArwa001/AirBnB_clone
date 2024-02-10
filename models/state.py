@@ -31,5 +31,4 @@ class State(BaseModel):
             name (str, optional): The name of the state.
         """
         super().__init__(*args, **kwargs)
-        if not self.name:
-            self.name = name
+        self.name = name
