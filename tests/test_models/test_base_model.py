@@ -31,7 +31,8 @@ class TestBaseModel(unittest.TestCase):
 
     def test_str_method(self):
         expected_str = "[{}] ({}) {}".format(
-            self.base_model.__class__.__name__, self.base_model.id, self.base_model.__dict__)
+            self.base_model.__class__.__name__,
+            self.base_model.id, self.base_model.__dict__)
         self.assertEqual(str(self.base_model), expected_str)
 
     def test_save_method(self):
@@ -83,8 +84,12 @@ class TestBaseModel(unittest.TestCase):
                 klass, id = key.split('.')
                 if id == self.base_model.id:
                     self.assertEqual(id, self.base_model.id)
-                    self.assertEqual(datetime.fromisoformat(data[key]['created_at']), self.base_model.created_at)
-                    self.assertEqual(datetime.fromisoformat(data[key]['updated_at']), self.base_model.updated_at)
+                    self.assertEqual(
+                        datetime.fromisoformat(data[key]['created_at']),
+                        self.base_model.created_at)
+                    self.assertEqual(
+                        datetime.fromisoformat(data[key]['updated_at']),
+                        self.base_model.updated_at)
                     self.assertEqual(data[key]['__class__'], 'BaseModel')
                     break
 

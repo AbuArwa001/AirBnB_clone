@@ -5,6 +5,7 @@ from models.engine.file_storage import FileStorage
 from datetime import datetime
 import json
 
+
 class TestFileStorage(unittest.TestCase):
     def setUp(self):
         self.file_storage = FileStorage()
@@ -16,8 +17,10 @@ class TestFileStorage(unittest.TestCase):
         # Create a BaseModel instance
         model = BaseModel()
         model.id = "1"
-        model.created_at = datetime(2024, 2, 9, 6, 0, 0)# Mock the creation time
-        model.updated_at = datetime(2024, 2, 9, 6, 0, 0)# Mock the update time
+        # Mock the creation time
+        model.created_at = datetime(2024, 2, 9, 6, 0, 0)
+        # Mock the update time
+        model.updated_at = datetime(2024, 2, 9, 6, 0, 0)
         model.created_at = model.created_at.isoformat()
         model.updated_at = model.updated_at.isoformat()
         self.file_storage.new(model)
@@ -27,7 +30,10 @@ class TestFileStorage(unittest.TestCase):
             file_saved = self.file_storage.save()
 
             # Assert that the file was opened with the correct arguments
-            mock_file.assert_called_once_with(self.file_storage._FileStorage__file_path, 'w', encoding='utf-8')
+            mock_file.assert_called_once_with(
+                self.file_storage._FileStorage__file_path,
+                'w', encoding='utf-8'
+                )
 
             # Construct expected dictionary
             expected_data = {
@@ -46,7 +52,10 @@ class TestFileStorage(unittest.TestCase):
             self.assertDictEqual(expected_data, actual_data)
             self.assertTrue(file_saved)
 
-    @patch("builtins.open", new_callable=mock_open, read_data='{"BaseModel.1": {"__class__": "BaseModel", "id": "1"}}')
+    @patch(
+        "builtins.open", new_callable=mock_open,
+        read_data='{"BaseModel.1": {"__class__": "BaseModel", "id": "1"}}'
+        )
     def test_all_returns_correct_instance_from_file_storage(self, mock_open):
         # Call the test_save method to save a BaseModel instance
         self.test_save_writes_correct_data_to_file()
@@ -73,6 +82,7 @@ class TestFileStorage(unittest.TestCase):
 
         # Assert that reloaded_data is not None
         self.assertIsNotNone(reloaded_data)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -6,7 +6,10 @@ from models.base_model import BaseModel
 class TestUser(unittest.TestCase):
     def setUp(self):
         self.default_user = User()
-        self.custom_user = User(email="test@example.com", password="password", first_name="John", last_name="Doe")
+        self.custom_user = User(
+            email="test@example.com", password="password",
+            first_name="John", last_name="Doe"
+            )
 
     def test_attributes_initialization(self):
         user = self.custom_user

@@ -224,7 +224,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-
     def do_all(self, arg):
         """
         Display the string representation of

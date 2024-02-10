@@ -1,6 +1,7 @@
 import unittest
 from models.state import State
 
+
 class TestState(unittest.TestCase):
 
     def setUp(self):
@@ -19,6 +20,7 @@ class TestState(unittest.TestCase):
 
         state = State(name="New York")
         self.assertEqual(state.name, "New York")
+
 
 if __name__ == '__main__':
     unittest.main()
