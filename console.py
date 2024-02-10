@@ -84,7 +84,6 @@ class HBNBCommand(cmd.Cmd):
                     line = self._commands(klass, method, id)
                 elif method == "update":
                     if group7:
-                        print("KWARGS")
                         dictionry = eval(group7)
                         self.do_update(f"{klass} {id}", **dictionry)
                         line = ""
