@@ -29,16 +29,18 @@ class HBNBCommand(cmd.Cmd):
             "count": lambda klass: "c",
             "show": lambda klass, id: f"show {klass} {id}",
             "update": lambda klass, id, *args, **kwargs: (
-                f"update {klass} {id} {args[0]} {args[1]}" if len(args) >= 2 else
-                (f"update {klass} {id} {kwargs}" if kwargs else f"update {klass} {id}")
+                f"update {klass} {id} {args[0]} {args[1]}"
+                if len(args) >= 2 else
+                (f"update {klass} {id} {kwargs}"
+                 if kwargs else f"update {klass} {id}")
             ),
             "destroy": lambda klass, id: f"destroy {klass} {id}"
         }
         self.class_methods = {
             klass:
-                                {
-                                      method: func for method, func in class_methods.items()
-                                } for klass in classes
+                {
+                      method: func for method, func in class_methods.items()
+                } for klass in classes
         }
 
     def _commands(self, klass, method, id=None, *args, **kwargs):
@@ -71,7 +73,8 @@ class HBNBCommand(cmd.Cmd):
             group5 = match.group(5)
             group6 = match.group(6)
             group7 = match.group(7)
-            if klass in self.class_methods and method in self.class_methods[klass]:
+            if (klass in self.class_methods
+                    and method in self.class_methods[klass]):
                 if method == "count":
                     line = self._commands(klass, method)
                     num_of_klasses = self.count(klass)
@@ -86,7 +89,8 @@ class HBNBCommand(cmd.Cmd):
                         self.do_update(f"{klass} {id}", **dictionry)
                         line = ""
                     elif group5 and group6:
-                        line = self._commands(klass, method, id, group5, group6)
+                        line = self._commands(klass, method,
+                                              id, group5, group6)
                 else:
                     line = self._commands(klass, method)
 
@@ -103,17 +107,18 @@ class HBNBCommand(cmd.Cmd):
     @staticmethod
     def count(arg):
         classes = ["BaseModel", "User", "Amenity",
-            "City", "Place", "Review", "State"]
+                   "City", "Place", "Review", "State"]
         storage.reload()
         all_objs = storage.all()
         all = []
         for obj_id in all_objs.keys():
-                class_name , _ = obj_id.split(".")
-                if arg in classes and arg == class_name:
-                    obj = str(all_objs[obj_id])
-                    all.append(obj)
+            class_name, _ = obj_id.split(".")
+            if arg in classes and arg == class_name:
+                obj = str(all_objs[obj_id])
+                all.append(obj)
         length = len(all)
         return length
+
     @staticmethod
     def create_instance(class_name: str, class_data: Dict[str, Any]) -> Any:
         """Create an instance of a class with the given class name and data."""
@@ -142,10 +147,12 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, arg):
         """
-            Create a new instance of BaseModel, save it to the JSON file, and print its id.
+            Create a new instance of BaseModel,
+            save it to the JSON file, and print its id.
 
             Args:
-                arg (str): The argument specifying the type of instance to create.
+                arg (str): The argument
+                specifying the type of instance to create.
 
             Returns:
                 Model id created
@@ -161,13 +168,13 @@ class HBNBCommand(cmd.Cmd):
             # print(arg)
             print("** class doesn't exist **")
         else:
-                class_name = arg
-                # Exclude __class__ key
-                # class_data = {key: value for key, value in data.items()
-                #               if key != '__class__'}
-                new_instance = self.create_instance(class_name, {})
-                print(new_instance.id)
-                new_instance.save()
+            class_name = arg
+            # Exclude __class__ key
+            # class_data = {key: value for key, value in data.items()
+            #               if key != '__class__'}
+            new_instance = self.create_instance(class_name, {})
+            print(new_instance.id)
+            new_instance.save()
             #
             # if arg == "BaseModel":
             #     model = BaseModel()
@@ -180,20 +187,23 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, arg):
         """
-        Display the string representation of one or more instances based on their class name and id.
+        Display the string representation of
+        one or more instances based on their class name and id.
 
         Args:
-            *arg: Variable number of arguments representing instances to display.
+            *arg: Variable number of
+            arguments representing instances to display.
 
         Returns:
             string representation of an instance
         Example:
             show BaseModel 1234-1234-1234
         """
-        # 
+        #
         # TODO: 1) consider when the arguments are three
-        #       2) Enter shouldnt execute anything (FOR NOW IT EXECUTE PREVIOUS COMMANDS)
-        # 
+        #       2) Enter shouldnt execute anything
+        #       (FOR NOW IT EXECUTE PREVIOUS COMMANDS)
+        #
         #
 
         # classes = ["BaseModel", "User", "Amenity",
@@ -215,33 +225,36 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
-        # 
+        #
         # TODO: Implement destroy on file storage
-        #  
+        #
 
     def do_all(self, arg):
         """
-        Display the string representation of all instances based on the specified class name, or of all instances if no class name is provided.
-        
+        Display the string representation of
+         all instances based on the specified class name, or of
+         all instances if no class name is provided.
         Args:
-            arg (str): The class name to filter instances by. If not provided, all instances are displayed.
-
+            arg (str): The class name to filter instances by.
+            If not provided, all instances are displayed.
         Returns:
             None
-        
         Prints:
-            List of strings representing the instances matching the specified class name, or all instances if no class name is provided.
-            If the class name doesn't exist, prints "** class doesn't exist **".
+            List of strings representing the
+            instances matching the specified class name,
+            or all instances if no class name is provided.
+            If the class name doesn't
+            exist, prints "** class doesn't exist **".
 
         Examples:
             all MyModel
             all
         """
-        # 
+        #
         # TODO: 1) CONSIDER A SCENARIO WHERE THERE ARE MANY ARGUMENTS
         #       2)
-        # 
-        # 
+        #
+        #
         storage.reload()
         all_objs = storage.all()
         all = []
@@ -299,20 +312,22 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, arg, *ags, **kwargs):
         """
-        Update an instance based on the class name and id by adding or updating attributes (save the changes into the JSON file).
+        Update an instance based on the class name and id
+        by adding or updating attributes (save the changes into the JSON file).
 
         Args:
-            arg (str): A string containing the class name, instance id, attribute name, and attribute value.
-            
+            arg (str): A string containing the class name,
+            instance id, attribute name, and attribute value.
         Returns:
             None
 
         Example:
-            update BaseModel 1234-1234-1234 email aibnb@mail.com 
+            update BaseModel 1234-1234-1234 email aibnb@mail.com
     """
         #
         #  TODO: Take note on what can be done about the quotes
-        #       in attr_val what if it appears on attr_name(we will have undesire quotes)
+        #       in attr_val what if it appears on
+        #       attr_name(we will have undesire quotes)
         #
         #
         # classes = ["BaseModel", "User", "Amenity",
@@ -354,11 +369,9 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    # 
+    #
     # TODO: 1) IMPLEMET NON-INTERACTIVE MODE
     #       2)  ADD NEW LINE F0R NIM (NON-INTERSCTIVE MODE)
     #
-    # 
-    # 
     interpreter = HBNBCommand()
     interpreter.cmdloop()
