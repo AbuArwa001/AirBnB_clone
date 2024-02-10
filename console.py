@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import cmd
+import json
 import re
 from models import storage
 import importlib
@@ -18,23 +19,77 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
 
+    def __init__(self):
+        super().__init__()
+        classes = ["BaseModel", "User", "Amenity",
+                   "City", "Place", "Review", "State"]
+        """ update BaseModel 1234-1234-1234 email aibnb@mail.com """
+        class_methods = {
+            "all": lambda klass: f"all {klass}",
+            "count": lambda klass: "c",
+            "show": lambda klass, id: f"show {klass} {id}",
+            "update": lambda klass, id, *args, **kwargs: (
+                f"update {klass} {id} {args[0]} {args[1]}" if len(args) >= 2 else
+                (f"update {klass} {id} {kwargs}" if kwargs else f"update {klass} {id}")
+            ),
+            "destroy": lambda klass, id: f"destroy {klass} {id}"
+        }
+        self.class_methods = {
+            klass:
+                                {
+                                      method: func for method, func in class_methods.items()
+                                } for klass in classes
+        }
+
+    def _commands(self, klass, method, id=None, *args, **kwargs):
+        if id:
+            if args:
+                return self.class_methods[klass][method](klass, id, *args)
+            elif kwargs:
+                return self.class_methods[klass][method](klass, id, **kwargs)
+            else:
+                return self.class_methods[klass][method](klass, id)
+        else:
+            return self.class_methods[klass][method](klass)
+
     def precmd(self, line):
         """Check for command if it uses .all() notation"""
-        classes = ["BaseModel", "User", "Amenity",
-            "City", "Place", "Review", "State"]
-        line = line.strip()
-        pattern = "(^[A-Z][a-zA-Z]{2,})\.(all|count|show|update)\(w*\)"
+        # line = line.strip()
+        pattern = r'(^[A-Z]\w*)\.' \
+                  r'(all|count|show|update|destroy)' \
+                  r'\("?(\w+(?:-\w+){4,})*"?' \
+                  r'(' \
+                  r'(?:,?\s?"?(\w*)"?)(?:,?\s?"?(\w*)"?)' \
+                  r'|' \
+                  r'(?:,?\s(\{.*\})))' \
+                  r'\)'
         match = re.search(pattern, line)
         if match:
             klass = match.group(1)
             method = match.group(2)
-            if method == "all" and klass in classes:
-                line = f"all {klass}"
-            elif method == "count":
-                klass = match.group(1)
-                num_of_klases = self.count(klass)
-                print(num_of_klases)
-                line = ""
+            id = match.group(3)
+            group5 = match.group(5)
+            group6 = match.group(6)
+            group7 = match.group(7)
+            if klass in self.class_methods and method in self.class_methods[klass]:
+                if method == "count":
+                    line = self._commands(klass, method)
+                    num_of_klasses = self.count(klass)
+                    print(num_of_klasses)
+                    line = ""
+                elif method == "show" or method == "destroy":
+                    line = self._commands(klass, method, id)
+                elif method == "update":
+                    if group7:
+                        print("KWARGS")
+                        dictionry = eval(group7)
+                        self.do_update(f"{klass} {id}", **dictionry)
+                        line = ""
+                    elif group5 and group6:
+                        line = self._commands(klass, method, id, group5, group6)
+                else:
+                    line = self._commands(klass, method)
+
         return cmd.Cmd.precmd(self, line)
 
     def do_quit(self, arg):
@@ -141,14 +196,14 @@ class HBNBCommand(cmd.Cmd):
         # 
         #
 
-        classes = ["BaseModel", "User", "Amenity",
-                   "City", "Place", "Review", "State"]
+        # classes = ["BaseModel", "User", "Amenity",
+        #            "City", "Place", "Review", "State"]
         ln = arg.split()
         size = len(ln)
         all_objs = storage.all()
         if size == 0:
             print("** class name missing **")
-        elif ln[0] not in classes:
+        elif ln[0] not in self.class_methods:
             print("** class doesn't exist **")
         elif size == 1:
             print("** instance id missing **")
@@ -216,14 +271,14 @@ class HBNBCommand(cmd.Cmd):
         Returns:
             None
         """
-        classes = ["BaseModel", "User", "Amenity",
-                   "City", "Place", "Review", "State"]
+        # classes = ["BaseModel", "User", "Amenity",
+        #            "City", "Place", "Review", "State"]
         ln = arg.split()
         size = len(ln)
         all_objs = storage.reload()
         if size == 0:
             print("** class name missing **")
-        elif ln[0] not in classes:
+        elif ln[0] not in self.class_methods:
             print("** class doesn't exist **")
         elif size == 1:
             print("** instance id missing **")
@@ -242,7 +297,7 @@ class HBNBCommand(cmd.Cmd):
     def process_match(match):
         return "'" + match.group(2).replace('"', "'") + "'"
 
-    def do_update(self, arg):
+    def do_update(self, arg, *ags, **kwargs):
         """
         Update an instance based on the class name and id by adding or updating attributes (save the changes into the JSON file).
 
@@ -260,34 +315,42 @@ class HBNBCommand(cmd.Cmd):
         #       in attr_val what if it appears on attr_name(we will have undesire quotes)
         #
         #
-        classes = ["BaseModel", "User", "Amenity",
-                   "City", "Place", "Review", "State"]
+        # classes = ["BaseModel", "User", "Amenity",
+        #            "City", "Place", "Review", "State"]
         ln = arg.split()
         size = len(ln)
         all_objs = storage.reload()
-        if size == 0:
-            print("** class name missing **")
-        elif ln[0] not in classes:
-            print("** class doesn't exist **")
-        elif size == 1:
-            print("** instance id missing **")
-        elif size == 2:
-            print("** instance id missing **")
-        elif size == 2:
-            print("** attribute name missing **")
-        elif size == 3:
-            print("** value missing **")
-        elif size == 4:
-            _, _, attr_name, attr_value = arg.split()
-            # attr_name = ln[2]
-            # attr_value = ln[3].replace('"', "")
-            attr_value = attr_value.replace('"', "")
+
+        if not kwargs:
+            if size == 0:
+                print("** class name missing **")
+            elif ln[0] not in self.class_methods:
+                print("** class doesn't exist **")
+            elif size == 1:
+                print("** instance id missing **")
+            elif size == 2:
+                print("** instance id missing **")
+            elif size == 2:
+                print("** attribute name missing **")
+            elif size == 3:
+                print("** value missing **")
+            elif size == 4:
+                _, _, attr_name, attr_value = arg.split()
+                # attr_name = ln[2]
+                # attr_value = ln[3].replace('"', "")
+                attr_value = attr_value.replace('"', "")
+                key = ln[0] + "." + ln[1]
+                if key in all_objs.keys():
+                    all_objs[key][attr_name] = attr_value
+                    storage.save()
+                else:
+                    print("** no instance found **")
+        else:
             key = ln[0] + "." + ln[1]
             if key in all_objs.keys():
-                all_objs[key][attr_name] = attr_value
+                for attr, val in kwargs.items():
+                    all_objs[key][attr] = val
                 storage.save()
-            else:
-                print("** no instance found **")
 
 
 if __name__ == '__main__':
