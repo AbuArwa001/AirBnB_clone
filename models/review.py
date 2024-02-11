@@ -26,7 +26,7 @@ class Review(BaseModel):
 
     """
 
-    def __init__(self, place_id="", user_id="", text="",  *args, **kwargs):
+    def __init__(self, place_id="", user_id="", text="", *args, **kwargs):
         """
         Initializes a Review instance.
 

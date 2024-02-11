@@ -16,9 +16,7 @@ class TestReview(unittest.TestCase):
         Set up a test instance of the Review class.
         """
         self.review = Review(
-            place_id="123",
-            user_id="user456",
-            text="This is a great place!"
+            place_id="123", user_id="user456", text="This is a great place!"
         )
 
     def test_attributes(self):
@@ -62,5 +60,5 @@ class TestReview(unittest.TestCase):
         self.assertEqual(review.text, "Another review text")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

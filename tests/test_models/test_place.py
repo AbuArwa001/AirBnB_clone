@@ -26,7 +26,7 @@ class TestPlace(unittest.TestCase):
             price_by_night=100.00,
             latitude=40.7128,
             longitude=-74.0060,
-            amenity_ids=[1, 2, 3]
+            amenity_ids=[1, 2, 3],
         )
 
     def test_attributes(self):
@@ -63,5 +63,5 @@ class TestPlace(unittest.TestCase):
         self.assertEqual(place.amenity_ids, [])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

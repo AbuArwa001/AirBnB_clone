@@ -13,6 +13,7 @@ class FileStorage:
     Serializes instances to a JSON file
     and deserializes JSON file to instances:
     """
+
     __file_path = "file.json"
     __objects = {}
 
@@ -46,8 +47,9 @@ class FileStorage:
         except ImportError:
             raise ValueError(f"Module '{class_module}' not found")
         except AttributeError:
-            raise ValueError(f"Class '{class_name}'"
-                             f"not found in module '{class_module}'")
+            raise ValueError(
+                f"Class '{class_name}'" f"not found in module '{class_module}'"
+            )
 
         return class_obj(**class_data)
 
@@ -62,7 +64,7 @@ class FileStorage:
         for key, val in self.__objects.items():
             dict_to_save.update({key: val.to_dict()})
         try:
-            with open(self.__file_path, 'w', encoding='utf-8') as file:
+            with open(self.__file_path, "w", encoding="utf-8") as file:
                 # json.dumps(self.__objects,
                 # indent=4, sort_keys=True, default=str)
                 file.write(json.dumps(dict_to_save, default=str))
@@ -77,10 +79,10 @@ class FileStorage:
         if os.path.isfile(self.__file_path):
             try:
                 class_instances = {}
-                with open(self.__file_path, 'r', encoding='utf-8') as file:
+                with open(self.__file_path, "r", encoding="utf-8") as file:
                     class_instances = json.load(file)
                     for instance_id, data in class_instances.items():
-                        class_name = data.get('__class__')
+                        class_name = data.get("__class__")
                         c_data = {key: value for key, value in data.items()}
                         new_instance = self.create_instance(class_name, c_data)
                         self.__objects[instance_id] = new_instance

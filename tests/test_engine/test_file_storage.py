@@ -4,6 +4,7 @@ from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from datetime import datetime
 import json
+
 """
 Module to test the Amenity class functionality.
 """
@@ -48,8 +49,9 @@ class TestFileStorage(unittest.TestCase):
             # Assert that the file was opened with the correct arguments
             mock_file.assert_called_once_with(
                 self.file_storage._FileStorage__file_path,
-                'w', encoding='utf-8'
-                )
+                "w",
+                encoding="utf-8",
+            )
 
             # Construct expected dictionary
             expected_data = {
@@ -57,7 +59,7 @@ class TestFileStorage(unittest.TestCase):
                     "__class__": model.__class__.__name__,
                     "id": model.id,
                     "created_at": model.created_at,
-                    "updated_at": model.updated_at
+                    "updated_at": model.updated_at,
                 }
             }
 
@@ -69,9 +71,10 @@ class TestFileStorage(unittest.TestCase):
             self.assertTrue(file_saved)
 
     @patch(
-        "builtins.open", new_callable=mock_open,
-        read_data='{"BaseModel.1": {"__class__": "BaseModel", "id": "1"}}'
-        )
+        "builtins.open",
+        new_callable=mock_open,
+        read_data='{"BaseModel.1": {"__class__": "BaseModel", "id": "1"}}',
+    )
     def test_all_returns_correct_instance_from_file_storage(self, mock_open):
         """
         Test that all method returns correct instances from file storage.
@@ -106,5 +109,5 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsNotNone(reloaded_data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

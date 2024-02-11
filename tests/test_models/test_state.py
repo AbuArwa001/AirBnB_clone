@@ -43,5 +43,5 @@ class TestState(unittest.TestCase):
         self.assertEqual(state.name, "New York")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

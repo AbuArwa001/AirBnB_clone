@@ -42,5 +42,5 @@ class TestAmenity(unittest.TestCase):
         self.assertEqual(amenity.name, "Pool")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

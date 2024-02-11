@@ -27,8 +27,15 @@ class User(BaseModel):
         User instance with optional email, password, first name, and last name.
     """
 
-    def __init__(self, email=None, password=None,
-                 first_name=None, last_name=None, *args, **kwargs):
+    def __init__(
+        self,
+        email=None,
+        password=None,
+        first_name=None,
+        last_name=None,
+        *args,
+        **kwargs
+    ):
         """
         Initializes a User instance.
 

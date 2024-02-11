@@ -16,30 +16,39 @@ class HBNBCommand(cmd.Cmd):
     console Command class that inherits
         cmd class
     """
+
     prompt = "(hbnb) "
 
     def __init__(self):
+        """update BaseModel 1234-1234-1234 email aibnb@mail.com"""
         super().__init__()
-        classes = ["BaseModel", "User", "Amenity",
-                   "City", "Place", "Review", "State"]
-        """ update BaseModel 1234-1234-1234 email aibnb@mail.com """
+        classes = [
+            "BaseModel",
+            "User",
+            "Amenity",
+            "City",
+            "Place",
+            "Review",
+            "State",
+        ]
         class_methods = {
             "all": lambda klass: f"all {klass}",
             "count": lambda klass: "c",
             "show": lambda klass, id: f"show {klass} {id}",
             "update": lambda klass, id, *args, **kwargs: (
                 f"update {klass} {id} {args[0]} {args[1]}"
-                if len(args) >= 2 else
-                (f"update {klass} {id} {kwargs}"
-                 if kwargs else f"update {klass} {id}")
+                if len(args) >= 2
+                else (
+                    f"update {klass} {id} {kwargs}"
+                    if kwargs
+                    else f"update {klass} {id}"
+                )
             ),
-            "destroy": lambda klass, id: f"destroy {klass} {id}"
+            "destroy": lambda klass, id: f"destroy {klass} {id}",
         }
         self.class_methods = {
-            klass:
-                {
-                      method: func for method, func in class_methods.items()
-                } for klass in classes
+            klass: {method: func for method, func in class_methods.items()}
+            for klass in classes
         }
 
     def _commands(self, klass, method, id=None, *args, **kwargs):
@@ -56,14 +65,16 @@ class HBNBCommand(cmd.Cmd):
     def precmd(self, line):
         """Check for command if it uses .all() notation"""
         # line = line.strip()
-        pattern = r'(^[A-Z]\w*)\.' \
-                  r'(all|count|show|update|destroy)' \
-                  r'\("?(\w+(?:-\w+){4,})*"?' \
-                  r'(' \
-                  r'(?:,?\s?"?(\w*)"?)(?:,?\s?"?(\w*)"?)' \
-                  r'|' \
-                  r'(?:,?\s(\{.*\})))' \
-                  r'\)'
+        pattern = (
+            r"(^[A-Z]\w*)\."
+            r"(all|count|show|update|destroy)"
+            r'\("?(\w+(?:-\w+){4,})*"?'
+            r"("
+            r'(?:,?\s?"?(\w*)"?)(?:,?\s?"?(\w*)"?)'
+            r"|"
+            r"(?:,?\s(\{.*\})))"
+            r"\)"
+        )
         match = re.search(pattern, line)
         if match:
             klass = match.group(1)
@@ -72,8 +83,10 @@ class HBNBCommand(cmd.Cmd):
             group5 = match.group(5)
             group6 = match.group(6)
             group7 = match.group(7)
-            if (klass in self.class_methods
-                    and method in self.class_methods[klass]):
+            if (
+                klass in self.class_methods
+                and method in self.class_methods[klass]
+            ):
                 if method == "count":
                     line = self._commands(klass, method)
                     num_of_klasses = self.count(klass)
@@ -87,8 +100,9 @@ class HBNBCommand(cmd.Cmd):
                         self.do_update(f"{klass} {id}", **dictionry)
                         line = ""
                     elif group5 and group6:
-                        line = self._commands(klass, method,
-                                              id, group5, group6)
+                        line = self._commands(
+                            klass, method, id, group5, group6
+                        )
                 else:
                     line = self._commands(klass, method)
 
@@ -107,8 +121,15 @@ class HBNBCommand(cmd.Cmd):
 
     @staticmethod
     def count(arg):
-        classes = ["BaseModel", "User", "Amenity",
-                   "City", "Place", "Review", "State"]
+        classes = [
+            "BaseModel",
+            "User",
+            "Amenity",
+            "City",
+            "Place",
+            "Review",
+            "State",
+        ]
         storage.reload()
         all_objs = storage.all()
         all = []
@@ -142,27 +163,35 @@ class HBNBCommand(cmd.Cmd):
         except ImportError:
             raise ValueError(f"Module '{class_module}' not found")
         except AttributeError:
-            raise ValueError(f"Class '{class_name}'"
-                             f"not found in module '{class_module}'")
+            raise ValueError(
+                f"Class '{class_name}'" f"not found in module '{class_module}'"
+            )
         return class_obj(**class_data)
 
     def do_create(self, arg):
         """
-            Create a new instance of BaseModel,
-            save it to the JSON file, and print its id.
+        Create a new instance of BaseModel,
+        save it to the JSON file, and print its id.
 
-            Args:
-                arg (str): The argument
-                specifying the type of instance to create.
+        Args:
+            arg (str): The argument
+            specifying the type of instance to create.
 
-            Returns:
-                Model id created
+        Returns:
+            Model id created
 
-            Example:
-               create BaseModel
+        Example:
+           create BaseModel
         """
-        classes = ["BaseModel", "User", "Amenity",
-                   "City", "Place", "Review", "State"]
+        classes = [
+            "BaseModel",
+            "User",
+            "Amenity",
+            "City",
+            "Place",
+            "Review",
+            "State",
+        ]
         if not arg:
             print("** class name missing **")
         elif arg not in classes:
@@ -317,7 +346,7 @@ class HBNBCommand(cmd.Cmd):
 
         Example:
             update BaseModel 1234-1234-1234 email aibnb@mail.com
-    """
+        """
         ln = arg.split()
         size = len(ln)
         all_objs = storage.reload()
@@ -354,5 +383,5 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     HBNBCommand().cmdloop()

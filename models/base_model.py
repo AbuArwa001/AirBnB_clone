@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-""" Module that imports  cmd module:
+"""
+Module that imports  cmd module:
     console Starting point
 """
 import cmd
 import uuid
 from datetime import datetime
-# from __init__ import storage
 from . import storage
 
 
@@ -21,17 +21,18 @@ class BaseModel:
         to_dict: converts to dictionary
         save: updates rime saved
     """
+
     def __init__(self, *args, **kwargs):
         """INITIALIZES CLASS BASEMODEL"""
         self.id = str(uuid.uuid4())
         self.created_at = datetime.now()
         self.updated_at = datetime.now()
         if not kwargs:
-            self.__dict__['__class__'] = self.__class__.__name__
+            self.__dict__["__class__"] = self.__class__.__name__
             storage.new(self)
         else:
             for key, val in kwargs.items():
-                if key == 'created_at' or key == 'updated_at':
+                if key == "created_at" or key == "updated_at":
                     new_val = datetime.fromisoformat(val)
                     self.__dict__[key] = new_val
                 else:
@@ -40,7 +41,7 @@ class BaseModel:
     def __str__(self):
         """Returns string representation of a class"""
         dict_copy = self.__dict__.copy()
-        del dict_copy['__class__']
+        del dict_copy["__class__"]
         return f"[{self.__class__.__name__}] ({self.id}) {dict_copy}"
 
     def save(self):
@@ -50,20 +51,20 @@ class BaseModel:
 
     def to_dict(self):
         """
-             Returns a dictionary representation of the instance.
+        Returns a dictionary representation of the instance.
 
-             Returns:
-                 dict: A dictionary containing the attributes of the instance.
+        Returns:
+            dict: A dictionary containing the attributes of the instance.
 
-             This method creates a dictionary representation of the instance,
-             including the common attributes 'id', 'x', and 'y'. Depending on
-             the instance type (either a Rectangle or a Square), additional
-             attributes such as 'width' and 'height' or 'size' are included in
-             the dictionary.
-             """
+        This method creates a dictionary representation of the instance,
+        including the common attributes 'id', 'x', and 'y'. Depending on
+        the instance type (either a Rectangle or a Square), additional
+        attributes such as 'width' and 'height' or 'size' are included in
+        the dictionary.
+        """
         result_dict = {}
         for attr_name, attr_value in self.__dict__.items():
-            if attr_name == 'created_at' or attr_name == 'updated_at':
+            if attr_name == "created_at" or attr_name == "updated_at":
                 val = attr_value.isoformat()
                 result_dict[attr_name] = val
             else:

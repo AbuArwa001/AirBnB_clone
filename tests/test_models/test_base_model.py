@@ -33,9 +33,9 @@ class TestBaseModel(unittest.TestCase):
         """
         Test that the BaseModel instance has the required attributes.
         """
-        self.assertTrue(hasattr(self.base_model, 'id'))
-        self.assertTrue(hasattr(self.base_model, 'created_at'))
-        self.assertTrue(hasattr(self.base_model, 'updated_at'))
+        self.assertTrue(hasattr(self.base_model, "id"))
+        self.assertTrue(hasattr(self.base_model, "created_at"))
+        self.assertTrue(hasattr(self.base_model, "updated_at"))
 
     def test_id_is_string(self):
         """
@@ -63,7 +63,9 @@ class TestBaseModel(unittest.TestCase):
         """
         expected_str = "[{}] ({}) {}".format(
             self.base_model.__class__.__name__,
-            self.base_model.id, self.base_model.__dict__)
+            self.base_model.id,
+            self.base_model.__dict__,
+        )
         self.assertEqual(str(self.base_model), expected_str)
 
     def test_save_method(self):
@@ -81,11 +83,11 @@ class TestBaseModel(unittest.TestCase):
         base_model_dict = self.base_model.to_dict()
 
         self.assertIsInstance(base_model_dict, dict)
-        self.assertEqual(base_model_dict['id'], self.base_model.id)
-        self.assertEqual(base_model_dict['__class__'], 'BaseModel')
+        self.assertEqual(base_model_dict["id"], self.base_model.id)
+        self.assertEqual(base_model_dict["__class__"], "BaseModel")
 
-        created_at_str = base_model_dict['created_at']
-        updated_at_str = base_model_dict['updated_at']
+        created_at_str = base_model_dict["created_at"]
+        updated_at_str = base_model_dict["updated_at"]
 
         created_at = datetime.strptime(created_at_str, "%Y-%m-%dT%H:%M:%S.%f")
         updated_at = datetime.strptime(updated_at_str, "%Y-%m-%dT%H:%M:%S.%f")
@@ -97,20 +99,21 @@ class TestBaseModel(unittest.TestCase):
         """
         Test the to_dict method when a custom class name is used.
         """
+
         class CustomModel(BaseModel):
             pass
 
         custom_model = CustomModel()
         custom_model_dict = custom_model.to_dict()
 
-        self.assertEqual(custom_model_dict['__class__'], 'CustomModel')
+        self.assertEqual(custom_model_dict["__class__"], "CustomModel")
 
     def test_json_file_saving(self):
         """
         Test saving BaseModel instance to a JSON file and loading it back.
         """
         # Truncate the file to make it empty
-        with open(self.test_json_file, 'w') as f:
+        with open(self.test_json_file, "w") as f:
             f.truncate()
 
         # Save object to a JSON file
@@ -120,21 +123,23 @@ class TestBaseModel(unittest.TestCase):
         self.assertTrue(os.path.exists(self.test_json_file))
 
         # Load JSON file and check if data matches
-        with open(self.test_json_file, 'r') as f:
+        with open(self.test_json_file, "r") as f:
             data = json.load(f)
             for key in data.keys():
-                klass, id = key.split('.')
+                klass, id = key.split(".")
                 if id == self.base_model.id:
                     self.assertEqual(id, self.base_model.id)
                     self.assertEqual(
-                        datetime.fromisoformat(data[key]['created_at']),
-                        self.base_model.created_at)
+                        datetime.fromisoformat(data[key]["created_at"]),
+                        self.base_model.created_at,
+                    )
                     self.assertEqual(
-                        datetime.fromisoformat(data[key]['updated_at']),
-                        self.base_model.updated_at)
-                    self.assertEqual(data[key]['__class__'], 'BaseModel')
+                        datetime.fromisoformat(data[key]["updated_at"]),
+                        self.base_model.updated_at,
+                    )
+                    self.assertEqual(data[key]["__class__"], "BaseModel")
                     break
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

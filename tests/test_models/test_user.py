@@ -18,8 +18,10 @@ class TestUser(unittest.TestCase):
         """
         self.default_user = User()
         self.custom_user = User(
-            email="test@example.com", password="password",
-            first_name="John", last_name="Doe"
+            email="test@example.com",
+            password="password",
+            first_name="John",
+            last_name="Doe",
         )
 
     def test_attributes_initialization(self):
@@ -38,10 +40,10 @@ class TestUser(unittest.TestCase):
         when no arguments are passed.
         """
         user = self.default_user
-        self.assertNotIn('email', user.__dict__)
-        self.assertNotIn('password', user.__dict__)
-        self.assertNotIn('first_name', user.__dict__)
-        self.assertNotIn('last_name', user.__dict__)
+        self.assertNotIn("email", user.__dict__)
+        self.assertNotIn("password", user.__dict__)
+        self.assertNotIn("first_name", user.__dict__)
+        self.assertNotIn("last_name", user.__dict__)
 
     def test_inheritance(self):
         """
@@ -71,5 +73,5 @@ class TestUser(unittest.TestCase):
         self.assertEqual(user.last_name, "Doe")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
