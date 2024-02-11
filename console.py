@@ -364,9 +364,4 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    #
-    # TODO: 1) IMPLEMET NON-INTERACTIVE MODE
-    #       2)  ADD NEW LINE F0R NIM (NON-INTERSCTIVE MODE)
-    #
-    interpreter = HBNBCommand()
-    interpreter.cmdloop()
+    HBNBCommand().cmdloop()
