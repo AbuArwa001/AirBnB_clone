@@ -94,7 +94,3 @@ class FileStorage:
                 # print(f"Error decoding
                 # JSON from file '{self.__file_path}': {e}")
                 return None
-        else:
-            # Handle the case when the file doesn't exist
-            # print(f"File '{self.__file_path}' doesn't exist.")
-            return None
