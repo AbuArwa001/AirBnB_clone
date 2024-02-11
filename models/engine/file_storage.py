@@ -24,7 +24,6 @@ class FileStorage:
         from models.base_model import BaseModel
 
         class_instances = {}
-        print(self.__objects)
         for instance_id, data in self.__objects.items():
             class_name = data['__class__']
             # Exclude __class__ key
@@ -32,7 +31,6 @@ class FileStorage:
                           if key != '__class__'}
             new_instance = self.create_instance(class_name, class_data)
             class_instances[instance_id] = new_instance
-
         return class_instances
 
     @staticmethod
@@ -96,3 +94,7 @@ class FileStorage:
                 # print(f"Error decoding
                 # JSON from file '{self.__file_path}': {e}")
                 return None
+        else:
+            # Handle the case when the file doesn't exist
+            # print(f"File '{self.__file_path}' doesn't exist.")
+            return None
