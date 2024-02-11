@@ -116,8 +116,8 @@ class HBNBCommand(cmd.Cmd):
         """Exits command using key interrupt"""
         return True
 
-    def postloop(self):
-        print("")
+    # def postloop(self):
+    #     print("")
 
     @staticmethod
     def count(arg):
