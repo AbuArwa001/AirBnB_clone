@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dd5f398a-c167-4f07-bca6-5a12ed98979e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/console.py" beforeDir="false" afterPath="$PROJECT_DIR$/console.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/amenity.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/amenity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/base_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/base_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/city.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/city.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/engine/file_storage.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/engine/file_storage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/place.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/place.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AUTHORS" beforeDir="false" afterPath="$PROJECT_DIR$/AUTHORS" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
