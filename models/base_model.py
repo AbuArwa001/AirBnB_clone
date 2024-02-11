@@ -7,7 +7,7 @@ import uuid
 from datetime import datetime
 # from __init__ import storage
 from . import storage
-
+import inspect
 
 class BaseModel:
     """
@@ -60,12 +60,11 @@ class BaseModel:
              attributes such as 'width' and 'height' or 'size' are included in
              the dictionary.
              """
-        result_dict = {
-            'my_number': getattr(self, 'my_number', None),
-            'name': getattr(self, 'name', None),
-            '__class__': self.__class__.__name__,
-            'updated_at': self.updated_at.isoformat(),
-            'id': self.id,
-            'created_at': self.created_at.isoformat(),
-        }
+        result_dict = {}
+        for attr_name, attr_value in self.__dict__.items():
+            if attr_name == 'created_at' or attr_name == 'updated_at':
+                val = attr_value.isoformat()
+                result_dict[attr_name] = val
+            else:
+                result_dict[attr_name] = attr_value
         return result_dict
