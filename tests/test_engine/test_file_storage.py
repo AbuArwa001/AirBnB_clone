@@ -8,6 +8,7 @@ import json
 Module to test the Amenity class functionality.
 """
 
+
 class TestFileStorage(unittest.TestCase):
     """
     Test cases for the FileStorage class.
