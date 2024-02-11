@@ -22,19 +22,10 @@ class FileStorage:
     def all(self):
         """Returns instances of classes based on data in __objects."""
         from models.base_model import BaseModel
-
-        class_instances = {}
-        for instance_id, data in self.__objects.items():
-            class_name = data['__class__']
-            # Exclude __class__ key
-            class_data = {key: value for key, value in data.items()
-                          if key != '__class__'}
-            new_instance = self.create_instance(class_name, class_data)
-            class_instances[instance_id] = new_instance
-        return class_instances
+        return self.__objects
 
     @staticmethod
-    def create_instance(class_name: str, class_data: Dict[str, Any]) -> Any:
+    def create_inst(class_name: str, class_data: Dict[str, Any]) -> Any:
         """Create an instance of a class with the given class name and data."""
         module_map = {
             "BaseModel": "..base_model",
@@ -82,10 +73,19 @@ class FileStorage:
 
     def reload(self):
         """Reloads __objects from the JSON file (path: __file_path)"""
+        from models.base_model import BaseModel
+
         if os.path.isfile(self.__file_path):
             try:
                 with open(self.__file_path, 'r', encoding='utf-8') as file:
-                    self.__objects = json.load(file)
+                    objs = json.load(file)
+                    for key, data in objs.items():
+                        class_name = data['__class__']
+                        class_data = {key: value for key, value in data.items()
+                                      if key != '__class__'}
+                        new_inst = self.create_inst(class_name, class_data)
+                        self.__objects[key] = new_inst
+
                 return self.__objects
             except OSError as e:
                 print(f"Error opening file '{self.__file_path}': {e}")
