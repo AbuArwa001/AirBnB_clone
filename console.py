@@ -311,7 +311,7 @@ class HBNBCommand(cmd.Cmd):
         #            "City", "Place", "Review", "State"]
         ln = arg.split()
         size = len(ln)
-        all_objs = storage.reload()
+        all_objs = storage.all()
         if size == 0:
             print("** class name missing **")
         elif ln[0] not in self.class_methods:
@@ -349,7 +349,7 @@ class HBNBCommand(cmd.Cmd):
         """
         ln = arg.split()
         size = len(ln)
-        all_objs = storage.reload()
+        all_objs = storage.all()
 
         if not kwargs:
             if size == 0:
