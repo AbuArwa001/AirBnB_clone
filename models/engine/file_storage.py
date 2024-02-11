@@ -21,17 +21,7 @@ class FileStorage:
 
     def all(self):
         """Returns instances of classes based on data in __objects."""
-        from models.base_model import BaseModel
-
-        class_instances = {}
-        for instance_id, data in self.__objects.items():
-            class_name = data['__class__']
-            # Exclude __class__ key
-            class_data = {key: value for key, value in data.items()
-                          if key != '__class__'}
-            new_instance = self.create_instance(class_name, class_data)
-            class_instances[instance_id] = new_instance
-        return class_instances
+        return self.__objects
 
     @staticmethod
     def create_instance(class_name: str, class_data: Dict[str, Any]) -> Any:
@@ -63,17 +53,19 @@ class FileStorage:
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
-        # print(obj)
         key = obj.__class__.__name__ + "." + obj.id
-        self.__objects[key] = obj.__dict__
+        self.__objects[key] = obj
 
     def save(self):
         """Serializes __objects to the JSON file (path: __file_path)"""
+        dict_to_save = {}
+        for key, val in self.__objects.items():
+            dict_to_save.update({key: val.to_dict()})
         try:
             with open(self.__file_path, 'w', encoding='utf-8') as file:
                 # json.dumps(self.__objects,
                 # indent=4, sort_keys=True, default=str)
-                file.write(json.dumps(self.__objects, default=str))
+                file.write(json.dumps(dict_to_save, default=str))
                 #  json.dump(self.__objects, file)
             return True  # Indicate success
         except Exception as e:
@@ -84,17 +76,19 @@ class FileStorage:
         """Reloads __objects from the JSON file (path: __file_path)"""
         if os.path.isfile(self.__file_path):
             try:
+                class_instances = {}
                 with open(self.__file_path, 'r', encoding='utf-8') as file:
-                    self.__objects = json.load(file)
-                return self.__objects
+                    class_instances = json.load(file)
+                    for instance_id, data in class_instances.items():
+                        class_name = data.get('__class__')
+                        c_data = {key: value for key, value in data.items()}
+                        new_instance = self.create_instance(class_name, c_data)
+                        self.__objects[instance_id] = new_instance
+                return True
             except OSError as e:
                 print(f"Error opening file '{self.__file_path}': {e}")
                 return None
             except json.JSONDecodeError as e:
-                # print(f"Error decoding
-                # JSON from file '{self.__file_path}': {e}")
                 return None
         else:
-            # Handle the case when the file doesn't exist
-            # print(f"File '{self.__file_path}' doesn't exist.")
             return None

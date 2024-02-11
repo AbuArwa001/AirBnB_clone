@@ -31,16 +31,17 @@ class BaseModel:
             storage.new(self)
         else:
             for key, val in kwargs.items():
-                if key != '__class__':
-                    if key == 'created_at' or key == 'updated_at':
-                        new_val = datetime.fromisoformat(val)
-                        self.__dict__[key] = new_val
-                    else:
-                        self.__dict__[key] = val
+                if key == 'created_at' or key == 'updated_at':
+                    new_val = datetime.fromisoformat(val)
+                    self.__dict__[key] = new_val
+                else:
+                    self.__dict__[key] = val
 
     def __str__(self):
         """Returns string representation of a class"""
-        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+        dict_copy = self.__dict__.copy()
+        del dict_copy['__class__']
+        return f"[{self.__class__.__name__}] ({self.id}) {dict_copy}"
 
     def save(self):
         """Saves and updates class"""
