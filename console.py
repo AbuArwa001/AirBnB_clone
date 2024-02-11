@@ -1,15 +1,14 @@
 #!/usr/bin/python3
+"""
+Module that imports  cmd module:
+    console Starting point
+"""
 import cmd
 import json
 import re
 from models import storage
 import importlib
 from typing import Any, Dict
-
-"""
-Module that imports  cmd module:
-    console Starting point
-"""
 
 
 class HBNBCommand(cmd.Cmd):
@@ -319,14 +318,6 @@ class HBNBCommand(cmd.Cmd):
         Example:
             update BaseModel 1234-1234-1234 email aibnb@mail.com
     """
-        #
-        #  TODO: Take note on what can be done about the quotes
-        #       in attr_val what if it appears on
-        #       attr_name(we will have undesire quotes)
-        #
-        #
-        # classes = ["BaseModel", "User", "Amenity",
-        #            "City", "Place", "Review", "State"]
         ln = arg.split()
         size = len(ln)
         all_objs = storage.reload()
