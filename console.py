@@ -17,7 +17,7 @@ class HBNBCommand(cmd.Cmd):
         cmd class
     """
 
-    prompt = "(hbnb) "
+    prompt = "(hbnb)"
 
     def __init__(self):
         """update BaseModel 1234-1234-1234 email aibnb@mail.com"""
@@ -116,8 +116,8 @@ class HBNBCommand(cmd.Cmd):
         """Exits command using key interrupt"""
         return True
 
-    # def postloop(self):
-    #     print("")
+    def postloop(self):
+        print("")
 
     @staticmethod
     def count(arg):
