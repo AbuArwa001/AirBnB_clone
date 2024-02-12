@@ -7,6 +7,12 @@ from models.base_model import BaseModel
 from datetime import datetime
 import json
 import os
+from unittest.mock import patch
+
+
+class MockedModel(BaseModel):
+    def __str__(self):
+        return "Fake"
 
 
 class TestBaseModel(unittest.TestCase):
@@ -57,16 +63,31 @@ class TestBaseModel(unittest.TestCase):
         """
         self.assertIsInstance(self.base_model.updated_at, datetime)
 
+    def test_str_method(self):
+        """
+        Test the string representation of the BaseModel instance.
+        """
+        expected_str = "[{}] ({}) {}".format(
+            self.base_model.__class__.__name__,
+            self.base_model.id,
+            self.base_model.__dict__,
+        )
+        self.assertEqual(str(self.base_model), expected_str)
     # def test_str_method(self):
-    #     """
-    #     Test the string representation of the BaseModel instance.
-    #     """
-    #     expected_str = "[{}] ({}) {}".format(
-    #         self.base_model.__class__.__name__,
-    #         self.base_model.id,
-    #         self.base_model.__dict__,
-    #     )
-    #     self.assertEqual(str(self.base_model), expected_str)
+    #     # Test the __str__ method of the BaseModel class
+    #     from models.base_model_4 import BaseModel
+    #     base_model = BaseModel()
+    #     output = str(base_model)
+    #     self.assertEqual(output, "Fake")
+    # def test_str_method(self):
+    #     # Create an instance of the mocked model
+    #     mocked_model = MockedModel()
+
+    #     # Call the __str__ method on the instance
+    #     output = str(mocked_model)
+
+    #     # Check if the output matches the expected value
+    #     self.assertEqual(output, "Fake")
 
     def test_save_method(self):
         """
