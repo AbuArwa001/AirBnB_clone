@@ -38,13 +38,7 @@ class HBNBCommand(cmd.Cmd):
         class_methods = {
             "all": lambda klass: f"all {klass}",
             "count": lambda klass: "c",
-            "show": lambda klass, id=None:  (
-                f"show {klass} {id}"
-                if id
-                else (
-                    f"show {klass}"
-                )
-                ),
+            "show": lambda klass, id: f"show {klass} {id}",
             "update": lambda klass, id, *args, **kwargs: (
                 f"update {klass} {id} {args[0]} {args[1]}"
                 if len(args) >= 2
@@ -70,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 return self.class_methods[klass][method](klass, id)
         else:
-            return self.class_methods[klass][method](klass)
+            return self.class_methods[klass][method](id)
 
     def precmd(self, line):
         """Check for command if it uses .all() notation"""
@@ -78,7 +72,7 @@ class HBNBCommand(cmd.Cmd):
         pattern = (
             r"(^[A-Z]\w*)\."
             r"(all|count|show|update|destroy)"
-            r'\("?([a-zA-z0-9\-]*)"?'
+            r'\("?(\w+(?:-\w+){4,})*"?'
             r"("
             r'(?:,?\s?"?(\w*)"?)(?:,?\s?"?(\w*)"?)'
             r"|"
@@ -104,7 +98,6 @@ class HBNBCommand(cmd.Cmd):
                     line = ""
                 elif method == "show" or method == "destroy":
                     line = self._commands(klass, method, id)
-                    print(line)
                 elif method == "update":
                     if group7:
                         dictionry = eval(group7)
@@ -390,7 +383,3 @@ class HBNBCommand(cmd.Cmd):
                 for attr, val in kwargs.items():
                     all_objs[key][attr] = val
                 storage.save()
-
-
-if __name__ == '__main__':
-    HBNBCommand().cmdloop()
