@@ -41,8 +41,8 @@ class BaseModel:
 
     def __str__(self):
         """Returns string representation of a class"""
-        dict_copy = self.__dict__.copy()
-        del dict_copy["__class__"]
+        # dict_copy = self.__dict__.copy()
+        # del dict_copy["__class__"]
         return f"[{self.__class__.__name__}] ({self.id}) {dict_copy}"
 
     def save(self):
