@@ -43,7 +43,7 @@ class BaseModel:
         """Returns string representation of a class"""
         # dict_copy = self.__dict__.copy()
         # del dict_copy["__class__"]
-        return f"[{self.__class__.__name__}] ({self.id}) {dict_copy}"
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """Saves and updates class"""
