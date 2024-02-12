@@ -363,8 +363,6 @@ class HBNBCommand(cmd.Cmd):
             elif size == 1:
                 print("** instance id missing **")
             elif size == 2:
-                print("** instance id missing **")
-            elif size == 2:
                 print("** attribute name missing **")
             elif size == 3:
                 print("** value missing **")
@@ -387,5 +385,5 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     HBNBCommand().cmdloop()
