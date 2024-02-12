@@ -29,6 +29,7 @@ class BaseModel:
         self.updated_at = datetime.now()
         if not kwargs:
             self.__dict__["__class__"] = self.__class__.__name__
+            # self.id = "1"
             storage.new(self)
         else:
             for key, val in kwargs.items():
@@ -65,6 +66,7 @@ class BaseModel:
         result_dict = {}
         for attr_name, attr_value in self.__dict__.items():
             if attr_name == "created_at" or attr_name == "updated_at":
+                # print(attr_value)
                 val = attr_value.isoformat()
                 result_dict[attr_name] = val
             else:
