@@ -393,6 +393,8 @@ class HBNBCommand(cmd.Cmd):
                 for attr, val in kwargs.items():
                     setattr(all_objs[key], attr, val)
                 storage.save()
+            else:
+                print("** no instance found **")
 
 
 if __name__ == '__main__':
