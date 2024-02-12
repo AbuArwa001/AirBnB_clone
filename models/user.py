@@ -26,13 +26,13 @@ class User(BaseModel):
         __init__: Initializes a
         User instance with optional email, password, first name, and last name.
     """
+    email = ""
+    password = ""
+    first_name = ""
+    last_name = ""
 
     def __init__(
         self,
-        email=None,
-        password=None,
-        first_name=None,
-        last_name=None,
         *args,
         **kwargs
     ):
@@ -50,11 +50,3 @@ class User(BaseModel):
                 passed to the superclass constructor.
         """
         super().__init__(*args, **kwargs)
-        if email is not None:
-            self.email = email
-        if password is not None:
-            self.password = password
-        if first_name is not None:
-            self.first_name = first_name
-        if last_name is not None:
-            self.last_name = last_name
