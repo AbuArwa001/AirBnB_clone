@@ -62,7 +62,7 @@ class HBNBCommand(cmd.Cmd):
         }
 
     def _commands(self, klass, method, id=None, *args, **kwargs):
-        if id:
+        if id or method == "show":
             if args:
                 return self.class_methods[klass][method](klass, id, *args)
             elif kwargs:
@@ -103,6 +103,8 @@ class HBNBCommand(cmd.Cmd):
                     print(num_of_klasses)
                     line = ""
                 elif method == "show" or method == "destroy":
+                    print(id)
+                    print(klass)
                     line = self._commands(klass, method, id)
                     print(line)
                 elif method == "update":
@@ -246,6 +248,7 @@ class HBNBCommand(cmd.Cmd):
 
         # classes = ["BaseModel", "User", "Amenity",
         #            "City", "Place", "Review", "State"]
+        print(arg)
         ln = arg.split()
         size = len(ln)
         all_objs = storage.all()
@@ -388,7 +391,7 @@ class HBNBCommand(cmd.Cmd):
             key = ln[0] + "." + ln[1]
             if key in all_objs.keys():
                 for attr, val in kwargs.items():
-                    all_objs[key][attr] = val
+                    setattr(all_objs[key], attr, val)
                 storage.save()
 
 
