@@ -9,6 +9,8 @@ import re
 from models import storage
 import importlib
 from typing import Any, Dict
+import io
+import sys
 
 
 class HBNBCommand(cmd.Cmd):
@@ -17,11 +19,13 @@ class HBNBCommand(cmd.Cmd):
         cmd class
     """
 
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
 
-    def __init__(self):
+    def __init__(self, stdin=None, stdout=None):
         """update BaseModel 1234-1234-1234 email aibnb@mail.com"""
         super().__init__()
+        self.stdin = stdin if stdin else sys.stdin
+        self.stdout = stdout if stdout else sys.stdout
         classes = [
             "BaseModel",
             "User",
@@ -383,5 +387,5 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
