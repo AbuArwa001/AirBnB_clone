@@ -373,7 +373,7 @@ class HBNBCommand(cmd.Cmd):
                 attr_value = attr_value.replace('"', "")
                 key = ln[0] + "." + ln[1]
                 if key in all_objs.keys():
-                    all_objs[key][attr_name] = attr_value
+                    setattr(all_objs[key], attr_name, attr_value)
                     storage.save()
                 else:
                     print("** no instance found **")
@@ -383,7 +383,3 @@ class HBNBCommand(cmd.Cmd):
                 for attr, val in kwargs.items():
                     all_objs[key][attr] = val
                 storage.save()
-
-
-if __name__ == "__main__":
-    HBNBCommand().cmdloop()
