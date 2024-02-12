@@ -23,8 +23,9 @@ class State(BaseModel):
         __init__: Initializes a State instance with an optional state name.
 
     """
+    name = ""
 
-    def __init__(self, name="", *args, **kwargs):
+    def __init__(self,  *args, **kwargs):
         """
         Initializes a State instance.
 
@@ -32,4 +33,3 @@ class State(BaseModel):
             name (str, optional): The name of the state.
         """
         super().__init__(*args, **kwargs)
-        self.name = name

@@ -23,8 +23,9 @@ class Amenity(BaseModel):
         __init__: Initializes an Amenity instance with an optional name.
 
     """
+    name = ""
 
-    def __init__(self, name="", *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         Initializes an Amenity instance.
 
@@ -32,4 +33,3 @@ class Amenity(BaseModel):
             name (str, optional): The name of the amenity.
         """
         super().__init__(*args, **kwargs)
-        self.name = name

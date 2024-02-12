@@ -25,8 +25,11 @@ class Review(BaseModel):
         __init__: Initializes a Review instance with optional parameters.
 
     """
+    place_id = ""
+    user_id = ""
+    text = ""
 
-    def __init__(self, place_id="", user_id="", text="", *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         Initializes a Review instance.
 
@@ -42,6 +45,3 @@ class Review(BaseModel):
                 keyword arguments passed to the superclass constructor.
         """
         super().__init__(*args, **kwargs)
-        self.place_id = place_id
-        self.user_id = user_id
-        self.text = text

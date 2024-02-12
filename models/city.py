@@ -25,8 +25,10 @@ class City(BaseModel):
             an optional state ID and city name.
 
     """
+    state_id = ""
+    name = ""
 
-    def __init__(self, state_id="", name="", *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         Initializes a City instance.
 
@@ -36,5 +38,3 @@ class City(BaseModel):
             name (str, optional): The name of the city.
         """
         super().__init__(*args, **kwargs)
-        self.state_id = state_id
-        self.name = name
