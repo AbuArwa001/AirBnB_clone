@@ -22,7 +22,8 @@ class TestFileStorage(unittest.TestCase):
 
     def test_all(self):
         # Test that all() returns the __objects dictionary
-        self.assertEqual(self.storage.all(), {})
+        all = self.storage.all()
+        self.assertEqual(all, {})
 
     def test_create_instance(self):
         # Test create_instance method with valid class name
