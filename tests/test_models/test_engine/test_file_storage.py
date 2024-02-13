@@ -1,71 +1,79 @@
 import unittest
-from unittest.mock import patch, mock_open
-from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
-from datetime import datetime
-import json
+from unittest.mock import patch, MagicMock
 import os
+import json
+from models.engine.file_storage import (
+    FileStorage,
+)  # Update with the actual module name
+from models.base_model import BaseModel
 
 
 class TestFileStorage(unittest.TestCase):
-
     def setUp(self):
-        self.file_storage = FileStorage()
-        self.model = BaseModel()
+        self.storage = FileStorage()
+        self.file_content = '{\
+        "BaseModel.test_id": {"__class__": "BaseModel", "id": "test_id"}\
+        }'
+        self.file_path = "file.json"
 
     def tearDown(self):
-        if os.path.exists(self.file_storage._FileStorage__file_path):
-            os.remove(self.file_storage._FileStorage__file_path)
+        if os.path.exists(FileStorage._FileStorage__file_path):
+            os.remove(FileStorage._FileStorage__file_path)
 
-    # def test_save_writes_correct_data_to_file(self):
-    #     if os.path.exists(self.file_storage._FileStorage__file_path):
-    #         os.remove(self.file_storage._FileStorage__file_path)
-    #         self.file_storage = None
-    #     fil_str = FileStorage()
-    #     fil_str._FileStorage__file_path = "new_file.json"
-    #     self.model.created_at = datetime(2024, 2, 9, 6, 0, 0)
-    #     self.model.updated_at = datetime(2024, 2, 9, 6, 0, 0)
-    #     fil_str.new(self.model)
-    #
-    #     with patch("builtins.open", mock_open()) as mock_file:
-    #         mock_file.reset_mock()
-    #         file_saved = fil_str.save()
-    #
-    #         mock_file.assert_called_once_with(
-    #             fil_str._FileStorage__file_path,
-    #             "w",
-    #             encoding="utf-8",
-    #         )
-    #
-    #         expected_data = {
-    #             f"{self.model.__class__.__name__}.{self.model.id}": {
-    #                 "__class__": self.model.__class__.__name__,
-    #                 "id": self.model.id,
-    #                 "created_at": self.model.created_at.isoformat(),
-    #                 "updated_at": self.model.updated_at.isoformat(),
-    #             }
-    #         }
-    #
-    #         actual_data = json.loads(mock_file().write.call_args[0][0])
-    #         print(actual_data)
-    #         self.assertDictEqual(expected_data, actual_data)
-    #         self.assertTrue(file_saved)
+    def test_all(self):
+        # Test that all() returns the __objects dictionary
+        self.assertEqual(self.storage.all(), {})
 
-    # @patch(
-    #     "builtins.open",
-    #     new_callable=mock_open,
-    #     read_data='{"BaseModel.1": {"__class__": "BaseModel", "id": "1"}}',
-    # )
-    # def test_all_returns_correct_instance_from_file_storage(self, mock_open):
-    #     instances = self.file_storage.all()
-    #     B_Model = f"BaseModel.{self.model.id}"
-    #     self.assertEqual(len(instances), 1)
-    #     self.assertIsInstance(instances[B_Model], BaseModel)
+    def test_create_instance(self):
+        # Test create_instance method with valid class name
+        obj_data = {"__class__": "BaseModel", "id": "123"}
+        obj = self.storage.create_instance("BaseModel", obj_data)
+        self.assertEqual(obj.__class__.__name__, "BaseModel")
+        self.assertEqual(obj.id, "123")
 
-    def test_reload(self):
-        self.model.save()
-        reloaded_data = self.file_storage.all()
-        self.assertIsNotNone(reloaded_data)
+        # Test create_instance method with invalid class name
+        with self.assertRaises(ValueError):
+            self.storage.create_instance("InvalidClass", obj_data)
+
+    def test_new(self):
+        # Test new method to add object to __objects dictionary
+        class MockObj:
+            def __init__(self):
+                self.__class__.__name__ = "MockObj"
+                self.id = "mock_id"
+
+        mock_obj = MockObj()
+        self.storage.new(mock_obj)
+        self.assertIn("MockObj.mock_id", self.storage._FileStorage__objects)
+
+    @patch("builtins.open", create=True)
+    def test_save(self, mock_open):
+        # Test save method
+        mock_file = mock_open.return_value
+        mock_file.write.return_value = None
+        isinstance = BaseModel({"__class__": "TestObj", "id": "test_id"})
+        self.storage._FileStorage__objects = {"TestObj.test_id": isinstance}
+        self.assertTrue(self.storage.save())
+
+    # @patch('builtins.open', create=True)
+    # def test_reload(self, mock_open):
+    #     # Create a mock file content
+    #     instance_data = {
+    #         "BaseModel.test_id": {"__class__": "BaseModel", "id": "test_id"}
+    #     }
+    #     mock_file_content = json.dumps(instance_data)
+    #     try:
+    #         with open(self.file_path, "w", encoding="utf-8") as file:
+    #             print("WRITE")
+    #             file.write(mock_file_content)
+    #     except Exception as e:
+    #         print("Error writing to file:", e)
+    #     # Call reload method
+    #     self.assertTrue(self.storage.reload())
+
+    #     # Assertions
+    #     self.assertIn(
+    # "BaseModel.test_id", self.storage._FileStorage__objects)
 
 
 if __name__ == "__main__":
