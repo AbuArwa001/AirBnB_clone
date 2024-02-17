@@ -1,0 +1,27 @@
+/*
+  ========================================
+  Filters Styles
+  ========================================
+*/
+.filters {
+    height: 70px;
+    width: 100%;
+    margin: 30px 0px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+}
+
+.container .filters button {
+    font-size: 18px;
+    background-color: #ff5a5f;
+    height: 48px;
+    width: 20%;
+    border-radius: 4px;
+    display: block;
+    margin-right: 30px;
+    margin-left: auto;
+    margin-top: 10px;
+}
+.container .filters button:hover {
+    opacity: 90%;
+}
