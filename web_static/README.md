@@ -1,6 +1,6 @@
-# AirBnB Clone Project
+# Web static
 
-This project is part of the curriculum for SE Foundations. The average for this curriculum is 147.77%.
+This project focuses on building static web pages for an AirBnB clone, incrementally adding features and styling using HTML and CSS.
 
 ## Project Overview
 
