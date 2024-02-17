@@ -2,18 +2,7 @@
 
 This project is part of the curriculum for SE Foundations. The average for this curriculum is 147.77%.
 
-## Captain's Log
-
-You have a captain's log due before 2024-02-18 (in about 23 hours)! Log it now!
-
 ## Project Overview
-
-- **Project Name**: AirBnB Clone - Web static
-- **Technologies**: HTML, CSS
-- **Front-end**: By Guillaume
-- **Weight**: 1
-- **Project Dates**: Feb 15, 2024 6:00 AM - Feb 20, 2024 6:00 AM
-- **Manual QA review**: Must be done (request it when you are done with the project)
 
 ## Concepts
 
