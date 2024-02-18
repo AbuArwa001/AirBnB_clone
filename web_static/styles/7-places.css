@@ -1,0 +1,31 @@
+.container .places{
+  align-items: center;
+  margin: 0 auto;
+}
+.container .places h1{
+    vertical-align: top;
+    text-align: left;
+}
+.container .places article {
+    width: 390px;
+    padding: 20px;
+    margin: 20px;
+    display: inline-block;
+    border: 1px solid #FF5A5F;
+    border-radius: 4px; 
+    text-align: center;
+}
+.places article:last-child {
+    display: flex;
+    margin: auto auto;
+}
+.places article:last-child h2{
+    display: flex;
+    margin: 25px auto;
+    
+    text-align: center;
+}
+.container .places article h2{
+    font-size: 30px;
+    text-align: center;
+}
