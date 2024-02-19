@@ -9,8 +9,7 @@
   .container .places article {
       position: relative;
       width: 390px;
-      padding: 20px;
-      margin: 20px;
+      margin: 40px;
       display: inline-block;
       border: 1px solid #FF5A5F;
       border-radius: 4px; 
@@ -18,10 +17,10 @@
       padding: 30px;
       justify-content: center;
   }
-  /* .places article:last-child {
-    display: flex;
-    justify-content: center;
-} */
+  .places article:last-child {
+    /* float:left; */
+    margin: 5% 30%;
+}
 /* .places article .information article:last-child::before {
     position: relative;
     align-content: center;
