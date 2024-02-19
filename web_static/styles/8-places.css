@@ -28,12 +28,12 @@
   .places article:last-child h2{
       display: flex;
       margin: 25px auto;
-      text-align: left;
+      text-align: center;
   }
   .container .places article h2{
       font-size: 30px;
       text-align: left;
-      margin: 20px; 
+      margin: 20px 80px;
   }
   /* 
   =========================
