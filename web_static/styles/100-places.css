@@ -1,16 +1,10 @@
-.container .places{
+.container .places {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Three columns of equal width */
-    grid-auto-rows: 1fr; /* Each row has the same height */
-    justify-items: center;
-    /* column-count: 2; */
-    grid-template-areas:
-    "a b"
-    ". c ."
+    grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+    grid-auto-rows: auto; /* Rows have auto height based on content */
+    gap: 20px; /* Gap between grid items */
+    justify-items: center; /* Center items horizontally */
   }
-.a { grid-area: a; }
-.b { grid-area: b; }
-.c { grid-area: c; }
   .container .places h1{
       vertical-align: top;
       text-align: left;
@@ -32,9 +26,13 @@
   margin-left: auto;
   margin-right: auto;
 } */
-article:nth-last-child(1) {
+/* article:nth-last-child(1) {
     background-color: lightyellow;
     margin: 10px;
+  } */
+  .container .places article:nth-child(3) {
+    grid-column-start: 1; /* Start at the first column */
+    grid-column-end: 3; /* End at the third column */
   }
 .places article .information article:last-child::before {
     /* position: relative; */
@@ -153,12 +151,15 @@ AMENITIES
     position: relative;
     margin-top: 40px;
     font-size: 16px;
-    border-bottom: 1px solid #DDDDDD;
+    /* border-bottom: 1px solid #DDDDDD; */
 }
 .reviews p {
     font-size: 12px;
 }
-.container .places article .list-amenity{
+.container .places article .list-amenity,
+.revs{
+    padding: 10px 0px;
+    border-bottom: 1px solid #DDDDDD;
     font-size: 16px;
 }
 
