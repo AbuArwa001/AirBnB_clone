@@ -1,7 +1,16 @@
 .container .places{
-    align-items: center;
-    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Three columns of equal width */
+    grid-auto-rows: 1fr; /* Each row has the same height */
+    justify-items: center;
+    /* column-count: 2; */
+    grid-template-areas:
+    "a b"
+    ". c ."
   }
+.a { grid-area: a; }
+.b { grid-area: b; }
+.c { grid-area: c; }
   .container .places h1{
       vertical-align: top;
       text-align: left;
@@ -9,20 +18,28 @@
   .container .places article {
       position: relative;
       width: 390px;
-      margin: 40px;
-      display: inline-block;
+      margin: 10px;
+      /* display: table-cell; */
       border: 1px solid #FF5A5F;
       border-radius: 4px; 
-      padding: 30px;
-      justify-content: center;
+      padding: 10px;
+      
   }
-  .places article:last-child {
+  /* .places article:last-child {
     margin: 5% 30%;
-}
-/* .places article .information article:last-child::before {
-    position: relative;
-    align-content: center;
 } */
+/* article:nth-last-child(3) {
+  margin-left: auto;
+  margin-right: auto;
+} */
+article:nth-last-child(1) {
+    background-color: lightyellow;
+    margin: 10px;
+  }
+.places article .information article:last-child::before {
+    /* position: relative; */
+    align-content: center;
+}
   .places article:last-child .places_home{
       margin: 25px auto;
       text-align: center;
@@ -72,7 +89,7 @@
 }
 .places article .information .max_guest::before {
     position: absolute;
-    left: 25px;
+    left: 5px;
     top: -50px;
     content: url(../images/icon_group.png);
 }
@@ -89,7 +106,7 @@ NUMBER OF ROOMS
 }
 .places article .information .number_rooms::before {
     position: absolute;
-    left: 25px;
+    left: 10px;
     top: -50px;
     content: url(../images/icon_bed.png);
 }
@@ -106,7 +123,7 @@ NUMBER OF BATHROOMS
 }
 .places article .information .number_bathrooms::before {
     position: absolute;
-    left: 25px;
+    left: 10px;
     top: -50px;
     content: url(../images/icon_bath.png);
 }
@@ -133,7 +150,6 @@ AMENITIES
 */
 .reviews,
 .amenities {
-    /* display: flex; */
     position: relative;
     margin-top: 40px;
     font-size: 16px;
