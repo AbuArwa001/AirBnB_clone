@@ -21,20 +21,31 @@
       margin: 25px auto;
       text-align: center;
   }
-  .container .places article .places_home{
-      font-size: 30px;
-      text-align: left;
-      margin: 20px 80px;
+  .container .places article .places_home {
+    font-size: 30px;
+    text-align: left;
+    margin: 20px auto;
+}
+  /*
+  ============================
+  ARTICLE HEAD
+  ============================
+  */
+  .article-head
+  {
+      display: flex;
+      /* border: 1px solid navy; */
+      align-items: flex-end;
+      align-items: stretch;
   }
-  /* 
+  /*
   =========================
   PRICE
   =========================
   */
   .price_by_night{
-    position: absolute; /* Position the div absolutely */
-    top: 10px; /* Align to the top */
-    right: 10px; /* Align to the right */
+    position: relative; 
+    right: 10px; 
     width: 60px;
     height: 60px;
     font-size: 30px;
@@ -42,68 +53,42 @@
     border-radius: 50px;
     display: flex;
     padding: 40px;
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    justify-content: center; 
+    align-items: center;
+    overflow: hidden;
+    min-width: 0;
   }
+
   /*
   ==================================
   GUEST INFO
   ================================== 
 */
+
 .information {
-    position: relative;
-    margin:80px  auto;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    flex-wrap: wrap;
     height: 80px;
     border: 1px solid #DDDDDD;
-    border-left: 0px;
-    border-right: 0px;
+    background: url(../images/icon_group.png) 10% 60% no-repeat, 
+               url(../images/icon_bed.png) 47% 60% no-repeat, 
+               url(../images/icon_bath.png) 90% 60% no-repeat;
 }
-.places article .information .max_guest {
-    position: relative;
-    width: 100px;
-    top: 55px;
-}
-.places article .information .max_guest::before {
-    position: absolute;
-    left: 5px;
-    top: -50px;
-    content: url(../images/icon_group.png);
-}
+
 /* 
 ========================================
 NUMBER OF ROOMS
 ======================================
 */
-.places article .information .number_rooms {
-    position: relative;
-    width: 100px;
-    top: 40px;
-    left: 120px;
-}
-.places article .information .number_rooms::before {
-    position: absolute;
-    left: 10px;
-    top: -50px;
-    content: url(../images/icon_bed.png);
-}
+
 /* 
 ===========================================
 NUMBER OF BATHROOMS
 ===========================================
 */
-.places article .information .number_bathrooms {
-    position: relative;
-    width: 100px;
-    top: 25px;
-    left: 250px;
-}
-.places article .information .number_bathrooms::before {
-    position: absolute;
-    left: 10px;
-    top: -50px;
-    content: url(../images/icon_bath.png);
-}
+
 
 /*
 ==========================
@@ -168,9 +153,9 @@ AMENITIES LIST
 */
 .amenities ul {
     list-style: none;
+    visibility: visible;
     padding: 0;
 }
 .amenities li i {
     margin-right: 10px;
 }
-
