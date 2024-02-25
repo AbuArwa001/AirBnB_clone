@@ -1,0 +1,164 @@
+/*
+  ========================================
+  Filters Styles
+  ========================================
+*/
+.filters {
+    display: flex;
+    height: 70px;
+    width: 100%;
+    margin: 30px 0px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    flex-wrap: nowrap;
+    /* flex-shrink: 2; */
+}
+
+.container .filters button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    background-color: #ff5a5f;
+    height: 48px;
+    width: 20%;
+    border-radius: 4px;
+    flex-shrink: 2;
+    flex-wrap: wrap;
+    margin-right: 30px;
+    margin-left: auto;
+    margin-top: 10px;
+}
+.places .filters:last-child{
+    align-items: left;
+}
+.container .filters button:hover {
+    opacity: 0.9;
+}
+.container .filters .locations,
+.container .filters .amenit {
+    flex-shrink: 1;
+    height: 100%;
+}
+.container .filters .amenit {
+    border-left: 1px solid #DDDDDD;
+    padding-right: 20px;
+}
+.container .filters .locations {
+    border-right: 1px solid #DDDDDD;
+    padding-right: 20px;
+    /* margin-left: 30px; */
+}
+.container .filters .locations #states,
+.container .filters .locations h4,
+.container .filters .amenit #amenity,
+.container .filters .amenit h4
+{
+    line-height: 1;
+    margin-left: 30px;
+}
+
+
+/*
+  ========================================
+  Typography
+  ========================================
+*/
+h2 {
+    font-size: 16px;
+    /* line-height: 0%; */
+}
+h3 {
+    font-weight: 600;
+    margin-bottom: 1px;
+}
+
+h4 {
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 2px;
+    margin-bottom: 6px;
+}
+/* h1{
+    z-index: -50;
+} */
+/*
+  ====================================
+  AMENITIES LIST
+  ==================================== 
+*/
+.container .filters .locations .popover,
+.container .filters .amenit .popover{
+    display: none;
+    top: 100%;
+    min-width: 160px;
+    width: 110%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    margin-top: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+}
+
+.container .filters .locations:hover #states-list,
+.container .filters .amenit:hover #amenities-list {
+    display: block;
+    background-color:  #FAFAFA;
+    z-index: 10;
+}
+
+/* 
+=================================
+LIST
+=================================
+*/
+.filters ul {
+    z-index: 1;
+    padding-left: 0%;
+    margin: 0% auto;
+    background-color:  #FAFAFA;
+}
+.filters li {
+    color: black;
+    padding: 0px 16px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer; /* Add pointer cursor for better usability */
+}
+
+.filters li:hover {
+    background-color:  #FAFAFA; /* Add hover effect for better feedback */
+}
+/* For screens that are 800px or less */
+@media (max-width: 800px) {
+    /* No horizontal scroll */
+    .container {
+      overflow-x: hidden;
+    }
+  
+    /* Search filter is reducing */
+    .filters {
+      width: 80%;
+    }
+  
+    /* Home items are taking the full width */
+    .container .places article {
+      width: 100%;
+    }
+  }
+  
+  /* For screens that are 400px or less */
+  @media (max-width: 400px) {
+    /* Search filter is moving in row instead of column */
+    .filters {
+      flex-direction: row;
+    }
+  
+    /* Home items are taking the full width */
+    .container .places article {
+      width: 100%;
+    }
+  }
+  

@@ -1,0 +1,22 @@
+.footer{
+    background-color: #FFFFFF;
+    height: 60px;
+    width: 100%;
+    border-top: 1px solid #CCCCCC;
+    text-align: center;
+    line-height: 60px;
+    position: fixed;
+    bottom: 0;
+}
+/* .footer-main {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+@media (max-width: 600px) {
+    .footer-about, .footer-services, .footer-contact, .footer-follow {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+} */
